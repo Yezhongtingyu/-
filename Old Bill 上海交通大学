@@ -1,0 +1,39 @@
+
+#include<iostream>
+#include<cstring>
+/*
+题目描述
+N只火鸡的加个为$_XYZ_，火鸡的总数n在1到99之间，加个由五位数组成，
+两边的数字由于褪色看不清，所以只能看到中间的三位数。假设第一个数字非零，
+每只火鸡的价格是整数，并且所有火鸡的加个相同。给定nxyz，编写一个程序来猜测
+两边褪色的数字和火鸡的原始价格。如果有多个价格符合题意，那么输出最昂贵的那个。
+tips：1.两重循环，用单价为整数判断
+      2.加bool判断找得到找不到，找单价最大值那么两个数就从9开始减循环，找到就输出并返回0保证输出最大值； 找不到输出0；
+      3.注意多组样例输入，用while 输入
+*/
+using namespace std;
+int fun(int N, int X, int Y, int  Z) {
+    bool find = false;
+    int sum = 0;
+    for (int i = 9; i >= 1; i--) {
+        for (int j = 9; j >= 0; j--) {
+            sum = i * 10000 + X * 1000 + Y * 100 + Z * 10 + j;
+            if (sum%N == 0) {
+                find = true;
+                cout << i << " " << j << " " << (sum / N) << endl;
+                return 0;
+            }
+        }
+    }
+    if (!find) {
+        cout << 0 << endl;
+    }
+    return 0;
+}
+int main() {
+    int N, X, Y, Z;
+    while (cin >> N >> X >> Y >> Z) {
+        fun(N, X, Y, Z);
+    }
+    return 0;
+}
