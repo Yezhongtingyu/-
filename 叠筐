@@ -1,0 +1,75 @@
+#include <iostream>
+#include <cstdio>
+/*
+把一个个大小差一圈的筐叠上去，使得从上往下看时，边筐花色交错。
+这个工作现在要让计算机来完成，等看你了
+输入：输入是一个个三元组，分别是：外框尺寸n（n为满足0<n<80的奇整数），
+中心花色字符，外筐花色字符，后二者都为ascii可见字符。
+输出：输出叠在一起的筐团，中心花色与外筐花色字符从内层起交错相叠
+多筐相叠时，最外筐的角总是被打磨掉，叠筐与叠筐之间由一行间隔
+样例输入 11 B A
+         5  @ W
+样例输出
+ AAAAAAAAA
+ABBBBBBBBBA
+A
+A
+A
+A
+A
+A
+A
+ AAAAAAAAA
+ 类似
+
+  @@@
+ @WWW@
+ @W@W@
+ @WWW@
+  @@@
+*/
+using namespace std;
+
+char matrix[80][80];
+int main() {
+    int n;                 // 叠筐大小
+    int a,b;               // 输入的两个字符
+    bool firstCase = true; // 第一组数据标志
+   scanf("%d %c %c",&n,&a,&b);
+        if(firstCase == true){
+            firstCase = false;
+        }else{
+            printf("\n");
+        }
+        for(int i = 0;i <= n / 2;i++){       // i,i 是每圈左上角坐标
+            int j = n - i - 1;               // j,j 是每圈右下角坐标
+            int length = n - 2 * i;          //求当前圈的边长
+            char c;                          //求当前填充字符
+            if((n / 2 - i) % 2 == 0){
+                c = a;
+            }else{
+                c = b;
+            }
+            for(int k = 0;k < length;k++){   //为当前圈赋值
+                matrix[i][i + k] = c;
+                matrix[i + k][i] = c;
+                matrix[j][j - k] = c;
+                matrix[j - k][j] = c;
+            }
+        }
+        if(n != 1){
+            matrix[0][0] = ' ';
+            matrix[0][n - 1] = ' ';
+            matrix[n - 1][0] = ' ';
+            matrix[n - 1][n - 1] = ' ';
+        }
+        for(int i = 0;i < n;i++){
+            for(int j = 0;j < n;j++){
+                printf("%c",matrix[i][j]);
+            }
+            printf("\n");
+
+        }
+
+    return 0;
+}
