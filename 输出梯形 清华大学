@@ -1,0 +1,32 @@
+#include <iostream>
+#include <cstdio>
+/*
+输入一个高度h，输出一个高度为h，上底边长度为h的梯形
+输入 4
+输出
+      ****
+    ******
+  ********
+**********
+*/
+using namespace std;
+
+
+int main() {
+    int h;
+    while(scanf("%d",&h) != EOF){
+        int row = h; //行数
+        int col = h + (h - 1) * 2; //列数为最后一行的*数
+        for(int i = 0;i < row;i++){
+            for(int j = 0;j < col;j++)
+                if(j < col - ( h + 2 * i)){
+                    printf(" ");
+                }else{
+                    printf("*");
+                }
+            printf("\n");
+        }
+
+    }
+    return 0;
+}
