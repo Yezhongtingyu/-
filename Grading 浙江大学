@@ -1,0 +1,43 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+using namespace std;
+/*
+问题描述
+王道第二版机试p29 习2.9
+样例输入
+20 2 15 13 10 18
+样例输出
+14.0
+解题思路
+王道并未关注 直接 / 2后 会不会 影响 数值，奇偶性不变。
+*/
+int main()
+{
+    int  P,T,G1,G2,G3,GJ;
+    float grade;
+    while(scanf("%d%d%d%d%d%d",&P,&T,&G1,&G2,&G3,&GJ)!=EOF)
+    {
+        if(abs(G1-G2)<=T)
+            grade=(G1+G2)*1.0/2;
+        else
+        {
+
+            if(abs(G1-G3)<=T&&abs(G3-G2)>T)
+                grade=(G1+G3)*1.0/2;
+            if(abs(G2-G3)<=T&&abs(G3-G1)>T)
+                grade=(G2+G3)*1.0/2;
+            if(abs(G1-G3)<=T&&abs(G2-G3)<=T)
+            {
+               grade=G1;
+               if(G2>grade) grade=G2;
+               if(G3>grade) grade=G3;
+            }
+            if(abs(G1-G3)>T&&abs(G2-G3)>T)
+                grade=GJ;
+        }
+        printf("%.1f\n",grade);
+    }
+    return 0;
+}
