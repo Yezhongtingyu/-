@@ -1,0 +1,55 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+using namespace std;
+/*问题描述：设计一个程序，它能够计算一个日期加上若干天后是什么日期
+输入 输入第一行表示样例个数m，接下来的m行中，每行4个整数，分别表示年月日和累加的天数
+输出 输出m行，每行按yyyy-mm-dd的个数输出
+样例输入
+1
+2008 2 3 100
+样例输出
+2008-05-13
+*/
+int daytab[2][13] = {           //预处理
+    {0,31,28,31,30,31,30,31,31,30,31,30,31},
+    {0,31,29,31,30,31,30,31,31,30,31,30,31},
+};
+bool IsleapYear(int year){
+    return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0) ;//闰年判断规则
+}
+int NumberOfYear(int year){
+    if(IsleapYear(year)){
+        return 366;
+    }else{
+        return 365;
+    }
+}
+int main()
+{   int year, month , day;
+    int number;
+    int caseNumber; //组数
+    cin>>caseNumber;
+    while(caseNumber--){
+        scanf("%d%d%d%d",&year, &month, &day, &number);
+        int row = IsleapYear(year);
+        for(int j = 0;j < month; j++){
+            number += daytab[row][j];
+        }
+        number += day;
+        while(number > NumberOfYear(year)){
+            number -= NumberOfYear(year);
+            year++;
+        }
+        month = 0;
+        row = IsleapYear(year);
+        while(number > daytab[row][month]){
+            number -= daytab[row][month];
+            month++;
+        }
+        day = number;
+        printf("%04d-%02d-%02d\n", year, month, day);
+    }
+
+    return 0;
+}
