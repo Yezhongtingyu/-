@@ -1,0 +1,65 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+using namespace std;
+/*问题描述：有两个日期，求两个日期之间的天数，如果两个日期是连续的我们规定他们之间的天数为两天
+输入 输入有多组数据，每组数据有两行，分别表示两个日期，形式为YYYYMMDD
+输出 每组数据输出一行，即日期差值
+样例输入
+20110412
+20110422
+样例输出
+11
+解题思路
+1.先求出两日期距离0年1月1日之差abs取绝对值
+2.scanf 的%d控制输入格式
+
+*/
+int daytab[2][13] = {           //预处理
+    {0,31,28,31,30,31,30,31,31,30,31,30,31},
+    {0,31,29,31,30,31,30,31,31,30,31,30,31},
+};
+bool IsleapYear(int year){
+    return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0) ;//闰年判断规则
+}
+int NumberOfYear(int year){
+    if(IsleapYear(year)){
+        return 366;
+    }else{
+        return 365;
+    }
+}
+int main()
+{   int year, month , day;
+    int year1, month1 , day1;
+    int number = 0;
+    int number1 = 0;
+    while(scanf("%04d%02d%02d",&year, &month, &day) != EOF){
+        scanf("%04d%02d%02d",&year1, &month1, &day1);
+        for(int i = 0;i < year;i++){
+            number += NumberOfYear(i);
+        }
+
+        for(int j = 0;j < month;j++){
+            number += daytab[IsleapYear(year)][j];
+        }
+
+        number += day;
+
+        for(int i = 0;i < year1;i++){
+            number1 += NumberOfYear(i);
+        }
+
+        for(int j = 0;j < month1;j++){
+            number1 += daytab[IsleapYear(year1)][j];
+        }
+
+        number1 += day1;
+        int sub = abs(number1 - number);
+        printf("%d", sub + 1);
+    }
+
+
+    return 0;
+}
