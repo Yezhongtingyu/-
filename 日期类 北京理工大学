@@ -1,0 +1,59 @@
+
+#include <iostream>
+#include <cstdio>
+using namespace std;
+ /*
+ 算法描述
+ 编写一个日期类，要求按xxxx-xx-xx 的格式输出日期，实现加一天的操作。
+ 输入描述
+ 输入第一行表示测试用例的个数m，接下来m行每行有3个用空格隔开的整数，分别表示年月日。测试数据不会有闰年。
+ 输出描述
+ 输出m行。按xxxx-xx-xx的格式输出，表示输入日期的后一天的日期。
+ 示例
+ 输入
+ 2
+1999 10 20
+2001 1 31
+ 输出
+ 1999-10-21
+2001-02-01
+解题思路
+day+1判断是否超过自己制定的数组
+mon+1判断是否超过一年
+ */
+ 
+ 
+ 
+int monDay[12]={31,28,31,30,31,30,31,31,30,31,30,31};
+class Date
+{
+    private:
+        int year,mon,day;
+    public:
+        void cal()
+        {
+            cin >> year >> mon >> day;
+            if(++day > monDay[mon-1])
+            {
+                mon++;
+                day=1;
+                if(mon > 12)
+                {
+                    year++;
+                    mon=1;
+                }
+            }
+            printf("%d-%02d-%02d\n",year,mon,day);
+        }
+};
+int main()
+{
+    int m;
+    cin >> m;
+    while(m--)
+    {
+        Date x;
+        x.cal();
+    }
+    return 0;
+}
