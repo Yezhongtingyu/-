@@ -1,0 +1,41 @@
+/*
+输入描述:包括三个整数年(1<=Y<=3000)、月(1<=M<=12)、日(1<=D<=31)。
+输出描述:输入可能有多组测试数据，对于每一组测试数据，
+输出一个整数，代表Input中的年、月、日对应本年的第几天。
+示例
+输入
+1990 9 20
+2000 5 1
+输出
+263
+122
+
+*/
+
+#include<stdio.h>
+ 
+int isleapyear(int year)
+{
+    if(year%4==0)
+        return 1;
+    else   
+        return 0;
+}
+ 
+int daytab[2][13]={
+    {0,31,28,31,30,31,30,31,31,30,31,30,31},
+    {0,31,29,31,30,31,30,31,31,30,31,30,31}
+};
+int main(){
+    int year,month,day;
+    while(scanf("%d%d%d",&year,&month,&day)!=EOF)
+    {int number=0;
+     int row=isleapyear(year),j;
+     for(j=0;j<month;j++)
+     {number+=daytab[row][j];}
+     number+=day;
+     printf("%d",number);
+         
+    }
+    return 0;
+}
