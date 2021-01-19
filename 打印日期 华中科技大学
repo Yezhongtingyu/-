@@ -1,0 +1,46 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+using namespace std;
+/*问题描述：给出年份m和一年中的第n填，算出第n天是几月几号
+输入 包括2个整数 （1<=Y<=3000），n（1<=n<=366）
+输出 输入可能有多组测试数据，对于每组测试数据
+按格式yyy-mm-dd将输入中对应的日期打印出来
+样例输入
+2000 3
+2000 31
+2000 40
+2000 60
+2000 61
+2001 60
+样例输出
+2000-01-03
+2000-01-31
+2000-02-09
+2000-02-29
+2000-03-01
+2001-03-01
+*/
+int daytab[2][13] = {           //预处理
+    {0,31,28,31,30,31,30,31,31,31,31,30,31},
+    {0,31,29,31,30,31,30,31,31,31,31,30,31},
+};
+bool IsleapYear(int year){
+    return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0) ;//闰年判断规则
+}
+int main()
+{   int year, month , day;
+    int number;
+    while(scanf("%d%d",&year , &number) != EOF){
+        month = 0;
+        int row = IsleapYear(year);
+        while(number > daytab[row][month]){
+            number -= daytab[row][month];
+            month++;
+        }
+        day = number;
+        printf("%04d-%02d-%02d\n", year, month,day);
+    }
+
+    return 0;
+}
