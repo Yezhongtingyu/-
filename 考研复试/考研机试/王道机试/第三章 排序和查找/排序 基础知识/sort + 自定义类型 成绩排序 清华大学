@@ -1,0 +1,64 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+using namespace std;
+/*
+问题描述
+用一维数组存储学号和成绩，然后，按成绩排序输出。
+输入描述
+输入第一行包括一个整数N(1<=N<=100)，代表学生的个数。
+接下来的N行每行包括两个整数p和q，分别代表每个学生的学号和成绩。
+输出描述
+按照学生的成绩从小到大进行排序，并将排序后的学生信息打印出来。
+如果学生的成绩相同，则按照学号的大小进行从小到大排序。
+样例输入
+3
+1 90
+2 87
+3 92
+样例输出
+2 87
+1 90
+3 92
+解题思路
+sort(first,last,compare)    默认快排从小到大
+黄金法则：
+当比较函数返回值为true时，表示的是比较函数的第一个参数将会排在第二个参数前面。
+自定义排序的类型
+例如：
+bool compare(int a,int b)
+{
+return a<b; //升序排列，如果改为return a>b，则为降序
+
+}
+*/
+struct Student {
+    int number;
+    int score;
+};
+
+Student arr[100];
+
+bool Compare(Student x, Student y){
+    if(x.score == y.score){
+        return x.number < y.number;
+    }else{
+        return x.score < y.score;
+    }
+
+}
+
+int main(){
+    int n = 0;
+    scanf("%d", &n);
+    for(int i = 0; i < n; i++){
+        scanf("%d%d", &arr[i].number, &arr[i].score);
+    }
+    sort(arr, arr + n, Compare);
+    for(int i = 0; i < n; i++){
+        printf("%d %d\n", arr[i].number, arr[i].score);
+    }
+    return 0;
+}
