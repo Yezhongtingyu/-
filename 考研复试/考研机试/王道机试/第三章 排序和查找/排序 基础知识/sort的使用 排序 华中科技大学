@@ -17,7 +17,7 @@ using namespace std;
 样例输出
 1234
 解题思路
-sort(first,last,compare)    快排
+sort(first,last,compare)    默认快排
 */
 const int MAXN = 100 ;
 
