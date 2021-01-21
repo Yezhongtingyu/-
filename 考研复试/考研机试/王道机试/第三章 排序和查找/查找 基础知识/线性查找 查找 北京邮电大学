@@ -1,0 +1,64 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+using namespace std;
+/*
+问题描述
+输入数组长度 n 输入数组   a[1...n] 输入查找个数m 输入查找数字b[1...m]
+  输出 YES or NO  查找有则YES 否则NO 。
+
+输入描述
+输入有多组数据。
+每组输入n，然后输入n个整数，再输入m，然后再输入m个整数（1<=m,n<=100）。
+输出描述
+如果在n个数组中输出YES否则输出NO。
+样例输入
+5
+1 5 2 4 3
+3
+2 5 6
+样例输出
+YES
+YES
+NO
+解题思路
+线性查找
+*/
+const int MAXN = 100 + 10;
+
+int arr[MAXN];
+bool LinearSearch(int n, int target){
+    for(int i = 0; i < n; i++){
+        if(arr[i] == target){
+            return true;
+        }
+    }
+    return false;
+
+}
+int main(){
+    int n;
+    scanf("%d",&n);
+    for(int i = 0; i < n; i++){
+        scanf("%d", &arr[i]);
+    }
+    int m;
+    scanf("%d", &m);
+    while(m--){
+        int target;
+        scanf("%d", &target);
+        if(LinearSearch(n, target)){
+            printf("YES\n");
+        }else{
+            printf("NO\n");
+        }
+    }
+
+
+
+    return 0;
+}
