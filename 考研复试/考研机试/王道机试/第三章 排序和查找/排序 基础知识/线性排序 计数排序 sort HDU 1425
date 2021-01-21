@@ -1,0 +1,59 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+using namespace std;
+/*
+问题描述
+给你n个整数， 请按从大到小的顺序输出其中前m大的数
+输入描述
+输入有多组数据。每组测试数据有两行，第一行有两个数n，m（0<n,m<1000000），第二行包含n个
+各不相同，且都处于区间[-500000,500000]
+输出描述
+对每组测试数据按从大到小的顺序输出前m大的数
+样例输入
+5 3
+3 -35 92 213 -644
+样例输出
+213 92 3
+解题思路
+线性排序
+*/
+const int MAXN = 1e6 + 10;
+const int RANGE = 5e5;
+
+int arr[MAXN];
+int number[MAXN];
+
+int main(){
+    int n, m;
+    while(scanf("%d%d", &n, &m) != EOF){
+        memset(number, 0, sizeof(number));
+        for(int i = 0;i < n; i++){
+            scanf("%d", &arr[i]);
+            number[arr[i] + RANGE]++;
+        }
+        int index = 0;
+        for(int i = 0;i < MAXN; i++){
+            while(number[i]--){
+                arr[index++] = i - RANGE;
+            }
+        }
+        for(int i = n - 1; i >= n - m; i--){
+            if(n - m == i){
+                printf("%d\n",arr[i]);
+            } else {
+                printf("%d ",arr[i]);
+            }
+        }
+    }
+
+
+
+
+
+
+    return 0;
+}
