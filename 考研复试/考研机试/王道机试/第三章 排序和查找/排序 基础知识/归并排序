@@ -52,7 +52,7 @@ void Combine(int left, int middle, int right){
 
 void MergeSort(int left, int right){
     if(left < right){
-        int middle = left + (right + left) / 2;
+        int middle = left + (right - left) / 2;
         MergeSort(left, middle);
         MergeSort(middle + 1, right);
         Combine(left, middle, right);
