@@ -1,0 +1,39 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+using namespace std;
+/*
+问题描述
+输入描述
+输出描述
+样例输入
+样例输出
+解题思路
+简单选择排序排序
+*/
+
+#include<iostream>
+using namespace std;
+
+void SelectSort(int R[], int n) //待排序关键字存储在R[]中，默认为整数，个数为n
+{
+    int i, j, k;
+    int temp;
+    for( i = 0; i < n; i++){
+        k = i;
+        for(j = i + 1; j < n; j++){
+            if(R[k] > R[j])
+                k = j;
+        }
+        temp = R[i];
+        R[i] = R[k];
+        R[k] = temp;
+    }
+
+
+}
