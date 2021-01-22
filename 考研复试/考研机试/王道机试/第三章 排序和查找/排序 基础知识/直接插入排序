@@ -1,0 +1,38 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+using namespace std;
+/*
+问题描述
+输入描述
+输出描述
+样例输入
+样例输出
+解题思路
+直接插入排序
+*/
+
+#include<iostream>
+using namespace std;
+
+void InsertSort(int R[], int n) //待排序关键字存储在R[]中，默认为整数，个数为n
+{
+    int i, j;
+    int temp;
+    for(i = 0; i < n; i++){
+        temp = R[i];
+        j = i - 1;
+    
+    while( j >= 0 && temp < R[j])
+    {
+        R[j + 1] = R[j];
+        --j;
+    }
+    R[j + 1] = temp;
+    }
+}
