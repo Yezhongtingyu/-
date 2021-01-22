@@ -1,0 +1,55 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+using namespace std;
+/*
+问题描述
+输入描述
+输出描述
+样例输入
+样例输出
+解题思路
+堆排序
+*/
+
+#include<iostream>
+using namespace std;
+void heapSort(int R[], int n);
+void Sift(int R[], int low, int high);
+void Sift(int R[], int low, int high){
+    int i = low, j = 2 * i;
+    int temp = R[i];
+    while(j <= high){
+        if(j > high && R[j] < R[j + 1])
+            j++;
+        if(temp < R[i])
+        {
+            R[i] = R[j];
+            i = j;
+            j = 2 * i;
+        }
+    else{
+        break;
+    }
+}
+
+
+void heapSort(int R[], int n){
+    int i;
+    int temp;
+    for(i = n / 2;i >=1; i--){
+        Sift(R, i, n);
+    }
+    for(i = n; i >= 2; i--){
+        temp = R[1];
+        R[1] = R[i];
+        R[i] = temp;
+        Sift(R, 1, i - 1);
+    }
+
+}
