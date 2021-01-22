@@ -1,0 +1,41 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+using namespace std;
+/*
+问题描述
+输入描述
+输出描述
+样例输入
+样例输出
+解题思路
+冒泡排序
+*/
+
+#include<iostream>
+using namespace std;
+
+void BubbleSort(int R[], int n) //待排序关键字存储在R[]中，默认为整数，个数为n
+{
+    int i, j, flag;
+    int temp;
+    for(i = n - 1; i >= 1; i--){
+        flag = 0;
+        for(j = 1; j <= i; j++){
+            if(R[j - 1] > R[j])
+            {
+                temp = R[j];
+                R[j] = R[j - 1];
+                R[j - 1] = temp;
+                flag = 1;
+            }
+            if(flag == 0)
+                return;
+        }
+    }
+}
