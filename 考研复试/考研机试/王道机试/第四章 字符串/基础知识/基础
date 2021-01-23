@@ -1,0 +1,120 @@
+1.string 的定义
+  string str
+2.string 初始化
+  可以直接给字符串变量赋值，如string str = "hello";
+  string str = "hello world";
+  cout << str << endl;
+  示例结果
+  hello world
+3.string 的长度
+  返回当前字符串长度的函数有size()和length(),二者功能基本相同
+  string str = "hello world";
+  int n = str.size();
+  printf("%d\n", n);
+  示例结果
+  11
+4.string 元素的访问
+  ①可以像数组那样通过元素下标进行访问，下标从0到size() - 1。
+  string str = "hello world";
+  for(int i = 0; i < str.size(); i++){
+	printf("%c", str[i]);
+  }
+  printf("\n");
+  printf("the 7th element of str is: %d\n", str[6]);
+  示例结果
+  h e l l o  w o r l d
+  w
+  ②可以通过迭代器进行访问，迭代器类似于指针
+  string str = "hello world";
+  for(string::iterator it = str.begin(); it != str.end(); it++){
+	printf("%d ", *it);
+  }
+  printf("\n");
+  示例结果
+  h e l l o  w o r l d
+5.string 中的元素操作
+  string 中常用的元素操作包括在任意位置插入元素的inser()，
+  在任意位置删除元素的erase()和将字符串清空的clear()。
+  string str = "hello world";
+  str.insert(str.size(), " end world");
+  cout << str << endl;
+  str.erase(0, 12);
+  cout << str << endl;
+  str.insert(0, "how to ");
+  cout << str << endl;
+  str.erase(str.begin() + 7);//直接单一个数是从pos开始直到最后一个全删除
+  cout << str << endl;
+  str.clear();
+  cout << str << endl;
+  /*示例结果
+  hello world end world
+  end world
+  how to nd world  how to end world
+  how to
+  */
+6.string 的运算符
+  string 可像数字一样进行运算，但不是进行加减乘除这样的数字逻辑运算，
+  而是将两个或多个字符串拼接成为一个更长的字符串。连接字符串和字符串
+  的运算符有"+"和"+="。
+  string str1 = "to be";
+  string str2 = "not to be";
+  string str3 = "that is a quesetion";
+  string str = str1 + ", ";   //"to be , "
+  str = str + str2 + ';';     //"to be , not to be;"
+  str += str3;
+  cout << str << endl;
+  示例结果
+  to be,  not to be;that is a quesetion
+  也可以按照字典序进行大小比较，比较运算符有<,>,<=,>=,判断两个字符串是否相等
+  的运算符有==和!=。
+  string str1 = "abc";
+  string str2 = "abcd";
+  string str3 = "bc";
+  string str4 = "abcd";
+  if(str1 <= str2){
+	print("str1 <= str2\n");
+  }
+  if(str2 < str3){
+	print("str2 < str3\n");
+  }
+  if(str3 < str1){
+	print("str3 < str1\n");
+  }
+  if(str1 != str3){
+	print("str1 != str3\n");
+  }
+  if(str2 == str4){
+	print("str2 == str4\n");
+  }
+  示例结果
+  str1 <= str2
+  str2 < str3
+  str3 > str1
+  str1 != str3
+  str2 == str4
+7.string 的常用函数
+  ①在字符串中寻找特定字符或字符串的函数是find().若函数找到相应的字符
+  或字符串则返回对应的下标，如找不到返回string::npos。
+  string str = "hello world";
+  int found = str.find("world"); //找字符串
+  if(found != string::nops){
+	printf("'world' found at: %d\n", found);
+  }
+  found = str.find('l');
+  if(found != string::nops){	 //找字符
+	printf("'l' found at: %d\n", found);
+  }
+  found = str.find('.');
+  if(found == string::nops){	 //找字符
+	printf("'.' not founded");
+  }
+  示例结果
+  'world' found at: 6
+  'l' found at: 2
+  '.' not founded
+  ②返回字符串的子串的函数是substr()
+  string str1 = "we think in generalities, but we live in details.";
+  string str2 = str1.substr(3,5);//包含3的5个字符
+  cout << str2 << endl;
+  示例结果
+  think
