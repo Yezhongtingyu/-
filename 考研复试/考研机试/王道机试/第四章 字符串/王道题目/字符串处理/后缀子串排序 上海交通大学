@@ -1,0 +1,55 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+using namespace std;
+/*
+问题描述
+对于一个字符串，将其后缀子串进行排序，例如grain 其子串有： grain rain ain in n
+然后对各子串按字典顺序排序，即： ain,grain,in,n,rain
+输入描述
+每个案例为一行字符串。
+输出描述
+将子串排序输出
+样例输入
+grain
+样例输出
+ain
+grain
+in
+n
+rain
+解题思路
+toupper
+*/
+#include<iostream>
+using namespace std;
+
+bool cmp(string a, string b){
+    for(int i = 0; i < a.length() && i < b.length(); i++){
+        if(a[i] != b[i]){
+            return a[i] < b[i];
+        }
+    }
+    return a.length() < b.length();
+}
+
+int main(){
+    string str;
+    while(cin >> str){
+        string *substr = new string[str.length()];
+        for(int i = 0; i < str.length(); i++){
+            substr[i] = str.substr(i, str.length() + 1);
+        }
+        sort(substr, substr + str.length(), cmp);
+        for(int i = 0; i < str.length(); i++){
+            cout << substr[i] << endl;
+        }
+    }
+    return 0;
+}
