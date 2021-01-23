@@ -1,0 +1,88 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+using namespace std;
+/*
+问题描述
+求2个浮点数相加的和 题目中输入输出中出现浮点数都有如下的形式： 
+P1P2...Pi.Q1Q2...Qj 对于整数部分，P1P2...Pi是一个非负整数 
+对于小数部分，Qj不等于0
+输入描述
+对于每组案例，每组测试数据占2行，分别是两个加数。
+输出描述
+每组案例是n行，每组测试数据有一行输出是相应的和。
+输出保证一定是一个小数部分不为0的浮点数
+样例输入
+0.111111111111111111111111111111
+0.111111111111111111111111111111
+样例输出
+0.222222222222222222222222222222
+解题思路
+toupper
+*/
+#include<iostream>
+using namespace std;
+
+
+
+#include <iostream>
+using namespace std;
+ 
+string add(string sa, string sb)
+{
+    string result, sc, sd;
+/*************下面是将两浮点数对齐***********/
+    int ia = sa.find(".", 0); //find() 从字符串sa的0号元素开始查询小数点
+    int ib = sb.find(".", 0);
+    sc = (ia>ib)?sa:sb;  //选原二者较长的给c
+    sd = (ia>ib)?sb:sa;  //选原二者较短的给d
+    int n = (ia>ib)?(ia-ib):(ib-ia);  //取ab二者长度之差的正整数
+    while(n--)
+    {
+        sd = "0"+sd;   //给较短d的添加0，直到二者整数部分长度相同
+    }
+    int lenc = sc.length();//c的长度
+    int lend = sd.length();//d的长度
+    sa = (lenc>lend)?sc:sd;//选cd二者最长的给a
+    sb = (lenc>lend)?sd:sc;//选cd二者最短的给b，这样b就是表示的短的那一个
+    n = (lenc>lend)?(lenc-lend):(lend-lenc);
+    while(n--)
+    {
+        sb+="0";//给b延长到a的长度
+    }
+/********下面是对对齐后的浮点数进行相加********/
+    int carry = 0;//进位
+    for(int i = sa.length()-1; i>=0; i--)
+    {
+        if(sa[i]=='.')
+        {
+            result = "."+result;
+            continue;
+        }
+        char value = sa[i]-'0'+sb[i]-'0'+carry; 
+        result = char(value%10+'0')+result;//把值加到字符串中
+        carry = value/10;//若value大于10就进位
+    }
+    while(carry!=0)
+    {
+        result = char(carry%10+'0')+result;
+        carry/=10;
+    }
+    return result;
+}
+int main()
+{
+    string sa, sb;
+    while(cin>>sa)
+    {
+        cin>>sb;
+        cout<<add(sa, sb)<<endl;
+    }
+    return 0;
+}
