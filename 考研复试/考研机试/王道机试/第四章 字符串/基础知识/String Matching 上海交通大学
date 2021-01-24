@@ -1,0 +1,82 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+using namespace std;
+/*
+问题描述
+问模式串在文本串中有多少个完全匹配的子串
+输入描述
+
+输出描述
+
+样例输入
+
+样例输出
+
+解题思路
+
+*/
+#include<iostream>
+using namespace std;
+
+const int MAXM = 10000;
+
+int nextTable[MAXM];
+
+void GetNextTable(string pattern){
+    int j = 0;
+    int m = pattern.size();
+    nextTable[j] = -1;
+    int i = nextTable[j];
+    while(j < m){  //一般为pattern.length()
+        if(-1 == i || pattern[j] == pattern[i]){
+            i++;
+            j++;
+            nextTable[j] = i;
+        } else {
+            i = nextTable[i];
+        }
+    }
+    return;
+}
+int KMP(string text, string pattern){
+    GetNextTable(pattern);
+    int n = text.size();
+    int m = pattern.size();
+    int i = 0;
+    int j = 0;
+    int number = 0;//记录匹配字数
+    while(i < n ){
+        if(j == -1 || text[i] == pattern[j]){
+            i++;
+            j++;
+        } else {
+            j = nextTable[j];
+        }
+        if(j == m){
+        number++;
+        j = nextTable[j];
+        }
+    }
+    return number;
+    }
+
+
+
+
+int main(){
+
+        string pattern, text;
+        cin >> text >> pattern;
+        printf("%d\n", KMP(text, pattern));
+
+
+
+    return 0;
+}
