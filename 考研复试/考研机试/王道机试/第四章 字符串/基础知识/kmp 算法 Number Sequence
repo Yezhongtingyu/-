@@ -65,7 +65,7 @@ int KMP(int n, int m){
     int i = 0;
     int j = 0;
     while(i < n && j < m){
-        if(j = -1 || text[i] == pattern[j]){
+        if(j == -1 || text[i] == pattern[j]){
             i++;
             j++;
         } else {
@@ -99,3 +99,4 @@ int main(){
 
     return 0;
 }
+
