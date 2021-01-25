@@ -1,0 +1,45 @@
+1.Stack 的定义
+  #include<stack>
+  stack<typename> name
+2.Stack 的状态
+  判空empty()
+  元素个数size()
+3.Stack 的添加和删除
+  添加push()
+  删除pop()
+4.Stack 元素的访问
+  仅有top()
+  示例代码
+  #include<cstdio>
+  #include<stack>
+
+  using namespace std;
+
+  stack<int> myStack;
+
+  int main(){
+    printf("the size of myStack: %d\n", myStack.size());
+    for(int i = 0; i < 10; ++i){
+        myStack.push(i);
+    }
+    printf("the top of myStack: %d\n", myStack.top());
+    printf("the size of myStack: %d\n", myStack.size());
+    int sum = 0;
+    while(!myStack.empty()){
+        sum += myStack.top();
+        myStack.pop();
+    }
+    printf("sum: %d\n", sum);
+    if(myStack.empty()){
+        printf("myStack is empty\n");
+    }
+
+    return 0;
+  }
+  
+  示例结果
+  the size of myStack: 0
+  the top of myStack: 9
+  the size of myStack: 10
+  sum: 45
+  myStack is empty
