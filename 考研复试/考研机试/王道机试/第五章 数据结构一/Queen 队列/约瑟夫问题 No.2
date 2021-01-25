@@ -1,0 +1,68 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+using namespace std;
+/*
+问题描述
+n个小孩坐成一圈，并按顺时针编号为1.2.....n，从编号为p的小孩顺时针依次报数，
+由1报到m，报到m时，这名小孩从圈中出去；然后下一名小孩再从1报数，报到m时再出去。
+依此类推，直到所有小孩都从圈中出去。请按出去的先后顺序输出小孩的编号。
+
+输入描述
+第一个是n，第二个是p，第三个是m（0<m，n<300）
+最后一行是：000.
+输出描述
+按输出圈的顺序输出编号，编号之间以逗号隔开。
+样例输入
+8 3 4 
+0 0 0
+样例输出
+6,2,7,4,3,5,1,8
+解题思路
+
+*/
+
+int main(){
+    int n, m, p;
+    while(scanf("%d%d%d", &n, &p, &m)){
+        if(n == 0 && p == 0 && m == 0){
+            break;
+        }
+        queue<int> children;
+        for(int i = 1; i <= n; ++i){
+            children.push(i);
+        }
+        for(int i = 1; i < p; ++i){
+            children.push(children.front());
+            children.pop();
+        }
+        while(!children.empty()){
+            for(int i = 0; i < m; ++i){
+                children.push(children.front());
+                children.pop();
+            }
+            if(children,size() == 1){
+                printf("%d\n", children.front());
+            } else {
+                printf("%d,", children.front())
+            }
+            children.pop();
+        }
+    }
+    
+    return 0;
+}
+
+
+
+
+
+
