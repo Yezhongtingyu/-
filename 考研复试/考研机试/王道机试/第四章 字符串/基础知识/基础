@@ -112,7 +112,7 @@
   'world' found at: 6
   'l' found at: 2
   '.' not founded
-  ②返回字符串的子串的函数是substr()
+  ②返回字符串的子串的函数是substr(start, length)
   string str1 = "we think in generalities, but we live in details.";
   string str2 = str1.substr(3,5);//包含3的5个字符
   cout << str2 << endl;
