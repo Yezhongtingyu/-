@@ -1,0 +1,43 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+using namespace std;
+/*
+问题描述
+输入两个正整数，求其最大公约数。
+输入描述
+测试数据有多组，每组输入两个正整数。
+输出描述
+对于每组输入,请输出其最大公约数。
+样例输入
+49 14
+样例输出
+7
+解题思路
+
+*/
+int GCD(int a, int b){
+    if(b == 0){
+        return a;
+    } else {
+        return GCD(b , a % b);
+    }
+}
+
+int main(){
+    int a, b;
+    while(scanf("%d%d", &a, &b )!= EOF){
+        cout << GCD(a, b) << endl;
+    }
+    return 0;
+}
