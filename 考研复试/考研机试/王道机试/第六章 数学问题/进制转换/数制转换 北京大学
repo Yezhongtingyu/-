@@ -1,0 +1,91 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+using namespace std;
+/*
+问题描述
+求任意两个不同进制非负整数的转换（2进制～16进制），
+所给整数在long所能表达的范围之内。
+不同进制的表示符号为（0，1，...，9，a，b，...，f）
+或者（0，1，...，9，A，B，...，F）。
+输入描述
+输入只有一行，包含三个整数a，
+n，b。a表示其后的n 是a进制整数，
+b表示欲将a进制整数n转换成b进制整数。
+a，b是十进制整数，2 =< a，b <= 16。
+数据可能存在包含前导零的情况。
+输出描述
+可能有多组测试数据，对于每组数据，
+输出包含一行，该行有一个整数为转换后的b进制数。
+输出时字母符号全部用大写表示，
+即（0，1，...，9，A，B，...，F）。
+样例输入
+15 Aab3 7
+样例输出
+210306
+解题思路
+
+*/
+string Upabc(string str){
+    for(int i = 0; i < str.length(); ++i){
+       if('a' <= str[i] && str[i] <= 'f'){
+            str[i] = str[i] - 'a' + 'A';
+       }
+    }
+    return str;
+}
+
+int main(){
+    long a, b;
+    string str;
+    stack<char> answer;
+
+    while(cin >> a >> str >> b){
+        long long sum = 0;
+        str = Upabc(str);
+        for(int i = 0; i < str.length(); ++i){
+            if('A' <= str[i] && str[i] <= 'F'){
+                sum *= a;
+                sum += str[i] - 'A' + 10;
+            }else if('0' <= str[i] && str[i] <= '9'){
+                sum *= a;
+                sum += str[i] - '0';
+            }
+        }
+        while(sum != 0){
+            if(b > 10){
+                if(sum % b >= 10){
+                    answer.push(sum % b - 10 + 'A');
+
+                }else{
+                    answer.push(sum % b + '0');
+                }
+                sum /= b;
+            }else{
+
+                answer.push(char (sum % b + '0'));
+                sum /= b;
+            }
+        }
+
+
+           while(!answer.empty()){
+            cout << answer.top();
+            answer.pop();
+           }
+
+        cout << endl;
+    }
+
+    return 0;
+}
