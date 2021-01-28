@@ -24,7 +24,7 @@ using namespace std;
 样例输出
 7
 解题思路
-
+a，b的最大公约数 等于 b 与 a&b的最大公约数
 */
 int GCD(int a, int b){
     if(b == 0){
