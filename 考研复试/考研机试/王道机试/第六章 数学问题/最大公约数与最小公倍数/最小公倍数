@@ -1,0 +1,43 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+using namespace std;
+/*
+问题描述
+输入两个正整数，求其最小公倍数。
+输入描述
+测试数据有多组，每组输入两个正整数，没组只有一行，包括俩呢不大于1000的正整数。
+输出描述
+对于每组输入,请输出其最小公倍数，每个一行。
+样例输入
+10 14
+样例输出
+70
+解题思路
+a，b的最小公倍数是两数的乘积除以他们的最大公倍数
+*/
+int GCD(int a, int b){
+    if(b == 0){
+        return a;
+    } else {
+        return GCD(b , a % b);
+    }
+}
+
+int main(){
+    int a, b;
+    while(scanf("%d%d", &a, &b )!= EOF){
+        cout << a * b / GCD(a, b) << endl;
+    }
+    return 0;
+}
