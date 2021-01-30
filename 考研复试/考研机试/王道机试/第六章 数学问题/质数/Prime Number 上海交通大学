@@ -1,0 +1,68 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+using namespace std;
+/*
+问题描述
+Output the k-th prime number.
+输入描述
+k≤10000
+输出描述
+The k-th prime number.
+样例输入
+3
+7
+样例输出
+5
+17
+解题思路
+数组标记法
+*/
+
+const int MANX = 10000000;
+
+
+vector<int> prime;
+bool isPrime[MANX];
+
+void Initial(){
+    for(int i = 0; i < MANX; ++i){
+        isPrime[i] = true;
+    }
+    isPrime[0] = false;
+    isPrime[1] = false;
+    for(int i = 2; i < MANX; ++i){
+        if(!isPrime[i]){
+            continue;
+        }
+        prime.push_back(i);
+        for(int j = i * i; j < MANX; j += i){
+            isPrime[j] = false;
+        }
+    }
+    return ;
+}
+
+int main(){
+    Initial();
+    int k;
+    int number_count;
+    while(scanf("%d", &k) != EOF){
+        for(int i = 0; i < prime.size(); ++i){
+            if(i == k - 1){
+                cout << prime[i] << endl; 
+            }
+        }
+    }
+    return 0;
+}
