@@ -1,0 +1,81 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+using namespace std;
+/*
+问题描述
+计算两个矩阵的乘积，第一个是2*3,第二个是3*2
+输入描述
+输入为两个矩阵，其中一个为2*3的矩阵，另一个为3*2的矩阵
+输出描述
+一个2*2的矩阵（每一个数字后都跟一个空格）
+样例输入
+1 2 3
+3 4 5
+6 7
+8 9
+10 11
+样例输出
+52 58
+100 112
+解题思路
+
+*/
+
+struct Matrix{
+    int matrix[3][3];
+    int row, col;
+    Matrix(int r, int c) : row(r) , col(c) {}  //常规函数是在类型之外，但是结构体函数是在结构体之内，其他一样
+};
+
+Matrix Multiply(Matrix x, Matrix y){
+    Matrix answer(x.row, y.col);
+    for(int i = 0; i < answer.row; ++i){
+        for(int j = 0; j < answer.col; ++j){
+            answer.matrix[i][j] = 0;
+            for(int k = 0; k < x.col; ++k){
+                answer.matrix[i][j] += x.matrix[i][k] * y.matrix[k][j];
+        }
+        }
+    }
+    return answer;
+}
+
+void PrintMatrix(Matrix x){
+    for(int i = 0; i < x.row; ++i){
+        for(int j = 0; j < x.col; ++j){
+            cout << x.matrix[i][j] << " " ;
+        }
+        cout << endl;
+        }
+    return ;
+}
+
+int main(){
+    Matrix x(2, 3);
+    Matrix y(3, 2);
+    for(int i = 0; i < x.row; ++i){
+        for(int j = 0; j < x.col; ++j){
+            cin >> x.matrix[i][j];
+        }
+    }
+    for(int i = 0; i < y.row; ++i){
+        for(int j = 0; j < y.col; ++j){
+            cin >> y.matrix[i][j];
+        }
+    }
+    Matrix answer = Multiply(x, y);
+    PrintMatrix(answer);
+
+    return 0;
+}
