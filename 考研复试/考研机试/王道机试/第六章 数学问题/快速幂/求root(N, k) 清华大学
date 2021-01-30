@@ -1,0 +1,55 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+using namespace std;
+/*
+问题描述
+N<k时，root(N,k) = N，否则，root(N,k) = root(N',k)。N'为N的k进制表示的各位数字之和。
+输入x,y,k，输出root(x^y,k)的值 (这里^为乘方，不是异或)，2=<k<=16，0<x,y<2000000000，
+有一半的测试点里 x^y 会溢出int的范围(>=2000000000)
+输入描述
+每组测试数据包括一行，x(0<x<2000000000), y(0<y<2000000000), k(2<=k<=16)。
+输出描述
+输入可能有多组数据，对于每一组数据，root(x^y, k)的值
+样例输入
+4 4 10
+样例输出
+4
+解题思路
+求通式
+*/
+long long FastExponentiation(long a, long b,long k){
+    long long answer = 1;
+    a %= k;         //初始化为1
+    while(b != 0){          //不断将b转换为二进制数
+        if(b % 2 == 1){     //若当前位为1，累乘a的2^k次幂
+            answer = (answer * a) % k;
+
+        }
+        b /= 2;
+        a = (a * a) %k;            //a不断平方
+    }
+    return answer;
+}
+
+
+int main(){
+    long x, y, k;
+    while(cin >> x >> y >> k){
+        int p = FastExponentiation(x, y , k - 1);
+        if(p == 0)
+            p = k - 1;
+        cout << p << endl;
+    }
+    return 0;
+}
