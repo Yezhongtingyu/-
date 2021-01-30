@@ -1,0 +1,58 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+using namespace std;
+/*
+问题描述
+求A^B的最后三位数表示的整数。说明：A^B的含义是“A的B次方”
+输入描述
+输入数据包含多个测试案例：每个案例占一行，由两个正整数A和B组成（1<=A,B<=10000）。
+如果A=0，B=0，则表示输入数据的结束，不作处理。
+输出描述
+对于每个测试案例，请输出A^B的最后三位表示的整数，每个输出占一行
+样例输入
+2 3
+12 6
+6789 10000
+0 0
+样例输出
+8
+984
+1
+解题思路
+
+*/
+int FastExponentiation(int a, int b, int mod){
+    int answer = 1;         //初始化为1
+    while(b != 0){          //不断将b转换为二进制数
+        if(b % 2 == 1){     //若当前位为1，类累乘a的2^k次幂
+            answer *= a;
+            answer %= mod;  //求后三位
+        }
+        b /= 2;
+        a *= a;             //a不断平方
+        a %= mod;
+    }
+    return answer;
+}
+
+int main(){
+    int a, b;
+    while(cin >> a >> b){
+        if(a == 0 && b == 0){
+            break;
+        }
+        cout << FastExponentiation(a, b, 1000) << endl;
+    }
+    return 0;
+}
