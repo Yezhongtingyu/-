@@ -1,0 +1,49 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+using namespace std;
+/*
+问题描述
+给定a0,a1,以及an=p*a(n-1) + q*a(n-2)中的p,q。这里n >= 2。 求第k个数对10000的模。
+输入描述
+输入包括5个整数：a0、a1、p、q、k。
+输出描述
+第k个数a(k)对10000的模。
+样例输入
+20 1 1 14 5
+样例输出
+8359
+解题思路
+
+*/
+
+
+
+int main()
+{
+    int a0,a1,p,q,k,a,i;
+    while(scanf("%d%d%d%d%d",&a0,&a1,&p,&q,&k)!=EOF)
+    {
+        a=p*a1+q*a0;
+        i=2;
+        while(i<=k)
+        {
+            a0=a1%10000;
+            a1=a%10000;
+            a=p*a1+q*a0;
+            i++;
+        }
+        printf("%d\n",a1%10000);
+    }
+    return 0;
+}
