@@ -1,0 +1,107 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+using namespace std;
+/*
+问题描述
+输入描述
+输出描述
+样例输入
+2 2
+1 1
+1 1
+-1 -1
+10 9
+2 3
+1 2 3
+4 5 6
+-1 -2 -3
+-4 -5 -6
+0
+样例输出
+1个
+5
+解题思路
+
+*/
+
+
+struct Matrix
+{
+    int matrix[10][10];
+    int row,col;
+    Matrix(int r,int c):row(r),col(c){}
+};
+Matrix Add(Matrix x,Matrix y)
+{
+    Matrix answer(x.row,x.col);
+    for(int i=0; i<answer.row; ++i)
+    {
+        for(int j=0; j<answer.col; ++j)
+        {
+            answer.matrix[i][j]=x.matrix[i][j]+y.matrix[i][j];
+        }
+    }
+    return answer;
+}
+int main()
+{
+    int m,n;
+    while(scanf("%d%d",&m,&n)!=EOF)
+    {
+        if(m==0) break;
+        Matrix x(m,n);
+        Matrix y(m,n);
+        for(int i=0; i<x.row; ++i)
+        {
+            for(int j=0; j<x.col; ++j)
+            {
+                scanf("%d",&x.matrix[i][j]);
+            }
+        }
+        for(int i=0; i<y.row; ++i)
+        {
+            for(int j=0; j<y.col; ++j)
+            {
+                scanf("%d",&y.matrix[i][j]);
+            }
+        }
+        Matrix answer=Add(x,y);
+        int number=0;
+        int temp;
+        for(int i=0; i<answer.row; ++i)
+        {
+            temp=0;
+            for(int j=0; j<answer.col; ++j)
+            {
+                if(answer.matrix[i][j]==0)
+                    temp++;
+            }
+            if(temp==answer.col)
+                number+=1;
+        }
+        for(int i=0; i<answer.col; ++i)
+        {
+            temp=0;
+            for(int j=0; j<answer.row; ++j)
+            {
+                if(answer.matrix[j][i]==0)
+                    temp++;
+            }
+            if(temp==answer.row)
+                number+=1;
+        }
+        printf("%d\n",number);
+    }
+    return 0;
+}
