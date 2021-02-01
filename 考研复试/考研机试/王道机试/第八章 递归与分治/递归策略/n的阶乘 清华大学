@@ -1,0 +1,42 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+using namespace std;
+/*
+问题描述
+n的阶乘
+输入描述
+输出描述
+样例输入
+3
+样例输出
+6
+解题思路
+
+*/
+long long Factorial(int n){
+    if(n == 0){
+        return 1;
+    } else {
+        return n * Factorial(n - 1);
+    }
+}
+
+int main(){ 
+    int n;
+    while(cin >> n){
+        cout << Factorial(n) << endl;
+    }
+
+    return 0;
+}
