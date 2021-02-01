@@ -1,0 +1,77 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+using namespace std;
+/*
+问题描述
+AC看电视
+输入描述
+输出描述
+样例输入
+12  个样例
+1 3 开始 结束
+3 4
+0 7
+3 8
+15 19
+15 20
+10 15
+8 18
+6 12
+5 10
+4 14
+2 9
+0  输入完成
+样例输出
+5
+解题思路
+先时间结束排序，后时间开始比较，最后时间结束赋值
+*/
+struct Program {
+    int start;
+    int endtime;
+};
+
+const int MAXN = 100;
+
+Program arr[MAXN];
+
+bool Compare(Program x, Program y){
+    return x.endtime < y.endtime;
+}
+
+int main(){
+    int n;
+    while(scanf("%d", &n)){
+        if(n == 0){
+            break;
+        }
+        for(int i = 0; i < n; i++){
+            scanf("%d%d", &arr[i].start, &arr[i].endtime);
+        }
+        sort(arr, arr + n, Compare);
+        int currentTime = 0;
+        int answer = 0;
+        for(int i = 0; i < n; ++i){
+            if(currentTime <= arr[i].start){
+                currentTime = arr[i].endtime;
+                answer++;
+            }
+        }
+        cout << answer << endl;
+    }
+    
+
+
+    return 0;
+}
