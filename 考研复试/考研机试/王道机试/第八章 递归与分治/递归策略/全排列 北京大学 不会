@@ -1,0 +1,81 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+using namespace std;
+/*
+问题描述
+给定一个由不同的小写字母组成的字符串，输出这个字符串的所有全排列。 
+我们假设对于小写字母有'a' < 'b' < ... < 'y' < 'z'，而且给定的字符串中的字母已经按照从小到大的顺序排列。
+输入描述
+输入只有一行，是一个由不同的小写字母组成的字符串，已知字符串的长度在1到6之间。
+输出描述
+输出这个字符串的所有排列方式，每行一个排列。要求字母序比较小的排列在前面。字母序如下定义：
+已知S = s1s2...sk , T = t1t2...tk，则S < T 等价于，存在p (1 <= p <= k)，使得
+s1 = t1, s2 = t2, ..., sp - 1 = tp - 1, sp < tp成立。
+
+每组样例输出结束后要再输出一个回车。
+样例输入
+abc
+样例输出
+abc
+acb
+bac
+bca
+cab
+cba
+解题思路
+
+*/
+/*
+c++自带
+int main()
+{
+    string str;
+    while(cin>>str)
+    {
+        sort(str.begin(),str.end());
+        do
+        {
+            cout<<str<<"\n";
+        }while(next_permutation(str.begin(),str.end()));
+    }
+    cout<<"\n";
+    return 0;
+}
+*/
+/*
+
+
+作为递归的练习题来训练的，思考了半小时，用比较简单的递归方式做了出来，采用减而治之的思想，对于递归中的任何一种情况，分成已确定的前缀str.size() - len 与待排列的后缀len，每次排列从后缀中任选一个字母加入前缀（共选len次）,然后len - 1，直到len == 1即为递归出口，此时前缀与后缀都确定，可以输出,输出顺序也为字典序。
+注意：1、案例除了每行字符串要换行外，在最后一行还要多加一个换行符
+2、测例中有dbc未排序好的测例，可以用algorithm里的sort函数轻松搞定
+*/
+void permutation(string str,int len) {
+    if (len == 1) cout << str << endl;
+    for (int i = 0; i < len; i++) {
+        string temp(str);
+        char head = temp[temp.size() - len + i]; //每次从后缀中选一个字母
+        temp.erase(temp.size() - len + i, 1);       //删掉head并加入到前缀的最后
+        temp.insert(str.size() - len,1,head);
+        permutation(temp,len - 1);                    //递归调用
+    }
+}
+int main() {
+    string str;
+    while (cin >> str) {
+        sort(str.begin(), str.end());        //防止dbc这种未排序好的测例
+        permutation(str, str.size());
+        printf("\n");
+    }
+    return 0;
+}
