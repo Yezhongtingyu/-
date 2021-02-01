@@ -1,0 +1,117 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+using namespace std;
+/*
+问题描述
+AC看电视
+输入描述
+输出描述
+样例输入
+4 4
+1 4
+7 8
+9 10
+12 14
+4 5 3 8
+样例输出
+yes 
+2 3 1
+解题思路
+
+*/
+/*
+    说下思路，这题写了我一天
+    贪心的思想，我们将终点看做一个价格为0,距离为最大值的车站
+    读入所有车站，按照距离从小到大排序，如果距离相同，按照价格从小到大，因为距离相同的油站我们取最便宜的
+    然后默认我们从起始的位置，也就是0起点的油站开始走
+    特殊情况：
+        如果起始点没有油站，那么车无法走，直接认为无解。
+ 
+    从当前车站往后搜寻比当前油站价格便宜的。
+        1.如果有比当前价格便宜的，那么加油到能够开到这个油站，然后继续寻找下一个更便宜的油站
+        2.如果没有，那么记录能够到达的油站中相对价格最低的，认为从当前油站加满油直接开到这个油站
+        这个很重要，就是因为这个问题卡了我一整天
+        3.如果没有找到比当前价格便宜的油站并且也没找到相对价格便宜的油站，那就退出，用当前油站的距离加上
+        满油能走的最大距离，输出
+     
+*/
+#include <bits/stdc++.h>
+using namespace std;
+struct station{
+    double price,dis;
+};
+bool cmp(station a,station b){
+    if(a.dis==b.dis){
+        return a.price<b.price;
+    }else{
+        return a.dis < b.dis;
+    }
+}
+ 
+const double inf = 999999999;
+ 
+int main(){
+    double cmax,d,davg;
+    int n;
+    cin>>cmax>>d>>davg>>n;
+    station sta[n+1];
+    sta[0].price = 0;sta[0].dis = d;
+    for(int i=1;i<=n;i++){
+        cin>>sta[i].price>>sta[i].dis;
+    }
+    sort(sta,sta+n+1,cmp);
+    double nowprice = 0.0,nowdis = 0.0;
+    double totalprice = 0.0,leftdis = 0.0; // leftdis 用于表示当前最便宜的油还能走多久 
+    if(sta[0].dis!=0){
+        cout<<"The maximum travel distance = 0.0";
+        return 0;
+    }else{
+        nowprice = sta[0].price;
+    }
+    while(nowdis!=d){
+        double maxdis = cmax*davg+nowdis; // 当前满油能走多远  
+        double minprice = inf;
+        double minpriceDis = 0.0;
+        int flag = 0;
+        for(int i=1;i<=n&&sta[i].dis<=maxdis;i++){
+            if(sta[i].dis<=nowdis){ // 若油站已经走过 
+                continue; 
+            }else{
+                if(sta[i].price<nowprice){ // 找到比当前价格便宜的油站 
+                    flag = 1;
+                    totalprice += (sta[i].dis-nowdis-leftdis)/davg * nowprice;
+                    leftdis = 0.0;
+                    nowdis = sta[i].dis;
+                    nowprice = sta[i].price;
+                    break;
+                }else if(sta[i].price<minprice){ // 记录当前可以到达的价格相对较小的油站 
+                    minprice = sta[i].price;
+                    minpriceDis = sta[i].dis;
+                }
+            } 
+        }
+        if(flag == 0 && minprice != inf){ // 未找到比当前价格便宜的油站,但是有相对便宜的
+            totalprice += (nowprice * (cmax - leftdis/davg));
+            leftdis = cmax*davg+nowdis - minpriceDis; // 计算便宜的=又还能走多远
+            nowprice = minprice;
+            nowdis = minpriceDis;
+        }
+        if(flag == 0 && minprice == inf){ // 未找到比当前便宜的油站并且也不能找到最便宜的 
+            printf("The maximum travel distance = %.2f",maxdis);
+            return 0;
+        }
+    }
+    printf("%.2f\n",totalprice);
+    return 0;
+}
