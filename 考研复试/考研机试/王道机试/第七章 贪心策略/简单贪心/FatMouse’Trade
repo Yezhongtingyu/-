@@ -1,0 +1,76 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+using namespace std;
+/*
+问题描述
+用猫粮买咖啡豆
+输入描述
+咖啡豆 和 价格
+输出描述
+多少咖啡豆
+样例输入
+5 3
+7 2
+4 3
+5 2
+20 3
+25 18
+24 15
+15 10
+-1 -1
+样例输出
+13.333
+31.500
+解题思路
+
+*/
+
+const int MAXN = 1000;
+
+struct JavaBean {
+    double weight;
+    double cost;
+};
+
+JavaBean arr[MAXN];
+
+bool Compare(JavaBean x, JavaBean y){
+    return (x.weight / x.cost) > (y.weight / y.cost);
+}
+
+int main(){
+    int m, n;
+    while(scanf("%d%d",&m, &n) != EOF){
+        if(m == - 1 && n == -1){
+            break;
+        }
+        for(int i = 0; i < n; ++i){
+            scanf("%lf%lf", &arr[i].weight, &arr[i].cost);
+        }
+        sort(arr, arr + n, Compare);
+        double answer = 0;
+        for(int i = 0; i < n; ++i){
+            if(m >= arr[i].cost){
+                m -= arr[i].cost;
+                answer += arr[i].weight;
+            } else {
+                answer += arr[i].weight * (m / arr[i].cost);
+                break;
+            }
+        }
+        printf("%.3f\n", answer);
+    }
+
+    return 0;
+}
