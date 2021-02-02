@@ -21,8 +21,7 @@ using namespace std;
 解题思路
 
 */
-链接：https://www.nowcoder.com/questionTerminal/7cf7b0706d7e4b439481f53e5fdac6e7
-来源：牛客网
+
 
 vector<int> trans(int n){//将十进制数转为二进制后哪些位为1，就压入vector中，例如137:7 3 0
     vector<int> vec;
