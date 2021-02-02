@@ -1,0 +1,59 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+using namespace std;
+/*
+问题描述
+给定正整数n，编写程序找出非零值n的倍数m，并且m的十进制数表示仅包含数字0和1.
+你可以假设n不大于200，且有不超过100位的相应m
+输入描述
+输出描述
+样例输入
+2
+6
+19
+0
+样例输出
+10
+100100100100100100
+111111111111111111
+解题思路
+10*m或10*m+1都  / n
+*/
+
+void BFS(int n){
+    queue<long long> myQueue;
+    myQueue.push(1);
+    while(!myQueue.empty()){
+        long long current = myQueue.front();
+        myQueue.pop();
+        if(current % n == 0){
+            cout << current << endl;
+            return ;
+        }
+        myQueue.push(current * 10);
+        myQueue.push(current * 10 + 1);
+    }
+}
+
+int main(){
+    int n;
+    while(cin >> n){
+        if(n == 0){
+            break;
+        }
+        BFS(n);
+    }
+
+    return 0;
+}
