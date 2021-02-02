@@ -1,0 +1,83 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+using namespace std;
+/*
+问题描述
+输入描述
+输出描述
+样例输入
+3
+1 1
+2 3
+4 3
+样例输出
+Scenario #1
+A1
+Scenario #2
+impossible
+Scenario #3
+A1B3C1A2B4C2A3B1C3A4B2C4
+解题思路
+
+*/
+
+const int MAXN = 30;
+int p, q;   //棋盘参数
+bool visit[MAXN][MAXN];//标记矩阵
+
+int direction[8][2] = {
+{-1, -2},{1, -2},{-2, -1},{2, -1},{-2, 1},{2, 1},{-1, 2},{1, 2}
+};
+
+bool DFS(int x, int y, int step, string ans){
+    if(step == p * q){              //搜索成功
+        cout << ans << endl << endl;
+        return true;
+    } else {
+        for(int i = 0; i < 8; ++i){
+            int nx = x + direction[i][0]; //遍历邻居节点
+            int ny = y + direction[i][1]; //扩展状态坐标
+            char col = ny + 'A';          //改点编号
+            char row = nx + '1';
+            if(nx < 0 || nx >= p || ny < 0 || ny >= p || visit[nx][ny]){
+                continue;
+            }
+            visit[nx][ny] = true;
+            if(DFS(nx, ny, step + 1, ans + col + row)){
+                return true;
+            }
+            visit[nx][ny] = false;
+        }
+
+    }
+    return false;
+}
+
+int main(){
+    int n;
+    scanf("%d", &n);
+    int casenumber = 0;
+    while(n--){
+        scanf("%d%d", &p, &q);
+        memset(visit,false,sizeof(visit));
+        cout << "Scenario #" << ++casenumber << ":" << endl;
+        visit[0][0] = true;     //标记A!点
+        if(!DFS(0, 0, 1, "A1")){
+            cout << "impossible" << endl << endl;
+        }
+    }
+
+
+    return 0;
+}
