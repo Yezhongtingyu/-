@@ -97,15 +97,15 @@
   或字符串则返回对应的下标，如找不到返回string::npos。
   string str = "hello world";
   int found = str.find("world"); //找字符串
-  if(found != string::nops){
+  if(found != string::npos){
 	printf("'world' found at: %d\n", found);
   }
   found = str.find('l');
-  if(found != string::nops){	 //找字符
+  if(found != string::npos){	 //找字符
 	printf("'l' found at: %d\n", found);
   }
   found = str.find('.');
-  if(found == string::nops){	 //找字符
+  if(found == string::npos){	 //找字符
 	printf("'.' not founded");
   }
   示例结果
