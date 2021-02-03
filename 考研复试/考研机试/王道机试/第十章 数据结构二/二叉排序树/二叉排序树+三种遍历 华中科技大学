@@ -1,0 +1,100 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+using namespace std;
+/*
+问题描述
+输入一系列整数，建立二叉排序树，并进行前序，中序，后序遍历。
+输入描述
+输入第一行包括一个整数n(1<=n<=100)。
+接下来的一行包括n个整数。
+输出描述
+可能有多组测试数据，对于每组数据，将题目所给数据建立一个二叉排序树，并对二叉排序树进行前序、中序和后序遍历。
+每种遍历结果输出一行。每行最后一个数据之后有一个空格。
+输入中可能有重复元素，但是输出的二叉树遍历序列中重复元素不用输出。
+样例输入
+5
+1 6 5 9 8
+样例输出
+1 6 5 9 8
+1 5 6 8 9
+5 8 9 6 1
+解题思路
+
+*/
+
+struct TreeNode{
+    char data;
+    TreeNode* LeftChild;
+    TreeNode* rightChild;
+    TreeNode(char c) : data(c), LeftChild(NULL), rightChild(NULL) {}
+};
+
+TreeNode* Insert(TreeNode* root, int x){
+    if(root == NULL){
+        root = new TreeNode(x);
+    } else if(x < root->data){
+        root->LeftChild = Insert(root->LeftChild, x);
+    } else if(x > root->data){
+        root->rightChild = Insert(root->rightChild, x);
+    }
+    return root;
+}
+
+void PreOrder(TreeNode* root){
+    if(root == NULL){
+        return ;
+    }
+    printf("%d ", root->data);
+    PreOrder(root->LeftChild);
+    PreOrder(root->rightChild);
+    return;
+}
+
+void InOrder(TreeNode* root){
+    if(root == NULL){
+        return;
+    }
+    InOrder(root->LeftChild);
+    printf("%d ", root->data);
+    InOrder(root->rightChild);
+    return;
+}
+
+void PostOrder(TreeNode* root){
+    if(root == NULL){
+        return;
+    }
+    PostOrder(root->LeftChild);
+    PostOrder(root->rightChild);
+    printf("%d ", root->data);
+    return;
+}
+int main(){
+    int n;
+    while(scanf("%d", &n) != EOF){
+        TreeNode* root = NULL;
+        for(int i = 0; i < n; ++i){
+            int x;
+            scanf("%d", &x);
+            root = Insert(root, x);
+        }
+        PreOrder(root);
+        cout << endl;
+        InOrder(root);
+        cout << endl;
+        PostOrder(root);
+        cout << endl;
+    }
+    return 0;
+}
