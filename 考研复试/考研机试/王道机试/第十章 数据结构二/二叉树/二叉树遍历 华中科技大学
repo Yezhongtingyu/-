@@ -38,14 +38,7 @@ XDEFAG
 BCA
 XEDGAF
 解题思路
-本题采用递归思想：
-①物品n个，物品体积逐一放入a[100]中
-②递归函数count(i,sum)=count(i+1,sum-a[i])+count(i+1,sum);
-其中，i为第i个物品，sum代表剩余空缺体积数
-count(i+1,sum-a[i]) 代表从第i+1个物品开始，剩余体积数为sum-a[i]的方案数
-（隐含：已经将a[i]的体积计算进去，即包含a[i]的体积）
-count(i+1,sum) 代表从第i+1个物品开始，剩余体积数为sum的方案数
-（隐含：不将a[i]的体积计算进去，即不包含a[i]的体积）
+
 */
 
 struct TreeNode{
