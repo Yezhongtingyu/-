@@ -1,0 +1,88 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+using namespace std;
+/*
+问题描述
+二叉树的前序、中序、后序遍历的定义：
+前序遍历：对任一子树，先访问跟，然后遍历其左子树，
+最后遍历其右子树；
+中序遍历：对任一子树，先遍历其左子树，然后访问根，
+最后遍历其右子树； 后序遍历：对任一子树，
+先遍历其左子树，然后遍历其右子树，最后访问根。
+给定一棵二叉树的前序遍历和中序遍历，
+求其后序遍历（提示：给定前序遍历与中序遍历能够唯一确定后序遍历）。
+输入描述
+两个字符串，其长度n均小于等于26。
+第一行为前序遍历，第二行为中序遍历。
+二叉树中的结点名称以大写字母表示：A，B，C....最多26个结点。
+输出描述
+输入样例可能有多组，对于每组测试样例，
+输出一行，为后序遍历的字符串。
+样例输入
+ABC
+BAC
+FDXEAG
+XDEFAG
+样例输出
+BCA
+XEDGAF
+解题思路
+本题采用递归思想：
+①物品n个，物品体积逐一放入a[100]中
+②递归函数count(i,sum)=count(i+1,sum-a[i])+count(i+1,sum);
+其中，i为第i个物品，sum代表剩余空缺体积数
+count(i+1,sum-a[i]) 代表从第i+1个物品开始，剩余体积数为sum-a[i]的方案数
+（隐含：已经将a[i]的体积计算进去，即包含a[i]的体积）
+count(i+1,sum) 代表从第i+1个物品开始，剩余体积数为sum的方案数
+（隐含：不将a[i]的体积计算进去，即不包含a[i]的体积）
+*/
+
+struct TreeNode{
+    char data;
+    TreeNode* LeftChild;
+    TreeNode* rightChild;
+    TreeNode(char c) : data(c), LeftChild(NULL), rightChild(NULL) {}
+};
+
+TreeNode* Build(string str1, string str2){
+    if(str1.size() == 0){
+        return NULL;
+    }
+    char c = str1[0];
+    TreeNode* root = new TreeNode(c);
+    int position = str2.find(c);
+    root->LeftChild = Build(str1.substr(1, position/*不包含position所代表的第一个然后二分得到左子树部分*/), str2.substr(0,position/*不包含position*/));
+    root->rightChild = Build(str1.substr(position + 1/*右子树部分*/), str2.substr(position + 1/*不包含position*/));
+    return root;//不得不说上两句太秀了
+}
+
+void Postorder(TreeNode* root){
+    if(root == NULL){
+        return;
+    }
+    Postorder(root->LeftChild);
+    Postorder(root->rightChild);
+    cout << root->data;
+    return;
+}
+
+int main(){
+    string str1, str2;
+    while(cin >> str1 >> str2){
+        TreeNode* root = Build(str1, str2);
+        Postorder(root);
+        cout << endl;
+    }
+    return 0;
+}
