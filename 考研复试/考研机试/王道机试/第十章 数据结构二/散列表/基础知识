@@ -1,0 +1,69 @@
+  map 的定义
+	#include<map>
+	map<typename T1, typename T2> name
+  map 的状态
+	size()
+	empty()
+  map 元素的添加或删除
+	insert()
+	erase()
+  map 元素的访问
+	1.[key]
+	2.at()
+	3.迭代器
+  map 元素的操作
+	find()查找特定元素,未找到返回迭代器end(),找到返回该元素的迭代器。
+	clear()
+  map 迭代器的操作
+	begin()
+	end()
+	示例代码
+	#include<iostream>
+	#include<cstdio>
+	#include<map>
+	
+	using namespace std;
+	
+	map<string, int> myMap;
+	
+	int main(){
+		myMap["Emma"] = 67;
+		myMap["benedict"] = 100;
+		myMap.insert(pair<string, int>("BOb", 72));
+		myMap.insert(pair<string, int>("Mary", 85));
+		myMap.insert(pair<string, int>("Alice", 93));
+		printf("the size of myMap:%d\n", myMap.size());
+		printf("the score of benedict:%d\n", myMap["benedict"]);
+		printf("the score of Mary:%d\n", myMap.at("Mary"));
+		myMap.erase("benedict");
+		map<string, int> :: iterator it;
+		for(it = myMap.begin(); it != myMap.end(); it++){
+			cout << "the score of" << it->first;
+			cout << ": " << it->second << endl;
+		}
+		myMap.clear();
+		if(myMap.empty()){
+			printf("myMap is empty\n");
+		} else {
+			printf("myMap is not empty\n");
+		}
+		it = myMap.find("BOb");
+		if(it != myMap.end()){
+			printf("Bob is found\n");
+		}else{
+			printf("Bob is not found\n");
+		}
+		printf("the size of myMap:%d\n", myMap.size());
+		return 0;
+	}
+	示例结果
+	the size of myMap:5
+	the score of benedict:100
+	the score of Mary:85
+	the score ofAlice: 93
+	the score ofBOb: 72
+	the score ofEmma: 67
+	the score ofMary: 85
+	myMap is empty
+	Bob is not found
+	the size of myMap:0
