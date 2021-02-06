@@ -1,0 +1,45 @@
+  priority_queue 的定义
+	#include<queue>
+	priority_queue<typename>name
+  priority_queue 的状态
+    priority_queue.size()
+	priority_queue.empty()
+  priority_queue 元素的添加或删除
+    priority_queue.push()
+	priority_queue.pop()
+  priority_queue 元素的访问
+    priority_queue.top()
+	示例代码
+	#include<iostream>
+	#include<cstdio>
+	#include<queue>
+	
+	using namespace std;
+	
+	priority_queue<int> myPriorityQueue;
+	
+	int main(){
+		printf("the size of myPriorityQueue: %d\n", myPriorityQueue.size());
+		myPriorityQueue.push(20);
+		myPriorityQueue.push(100);
+		myPriorityQueue.push(30);
+		myPriorityQueue.push(50);
+		printf("the top of myPriorityQueue: %d\n", myPriorityQueue.top());
+		printf("the size of myPriorityQueue: %d\n", myPriorityQueue.size());
+		int sum = 0;
+		while(!myPriorityQueue.empty()){
+			printf("%d ", myPriorityQueue.top());
+			sum += myPriorityQueue.top();
+			myPriorityQueue.pop();
+		}
+		
+		printf("sum: %d\n", sum);
+	
+		return 0;
+	}	
+	
+	示例结果
+	the size of myPriorityQueue: 0
+	the top of myPriorityQueue: 100
+	the size of myPriorityQueue: 4
+	100 50 30 20 sum: 200
