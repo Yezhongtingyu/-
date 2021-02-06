@@ -1,0 +1,88 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+#include<map>
+using namespace std;
+/*
+问题描述
+读入N名学生的成绩，将获得某一给定分数的学生人数输出。
+输入描述
+测试输入包含若干测试用例，每个测试用例的格式为
+
+第1行：N
+第2行：N名学生的成绩，相邻两数字用一个空格间隔。
+第3行：给定分数
+
+当读到N=0时输入结束。其中N不超过1000，成绩分数为（包含）0到100之间的一个整数。
+输出描述
+对每个测试用例，将获得给定分数的学生人数输出。
+样例输入
+3
+80 60 90
+60
+2
+85 66
+0
+5
+60 75 90 55 75
+75
+0
+样例输出
+1
+0
+2
+解题思路
+
+*/
+
+map<int, int> number;
+
+int main(){
+    int i;
+    while(scanf("%d", &i) != EOF){
+        if(i == 0){
+            break;
+        }
+        while(i--){
+        int m;
+        cin >> m;
+        number[m]++;
+    }
+    int q;
+    scanf("%d", &q);
+    printf("%d\n", number[q]);
+    }
+
+    return 0;
+}
+/*
+莫忘
+int main()
+{
+    int i,d;
+    int N;
+    while(scanf("%d",&N)!=EOF)
+    {
+        int score[101]={0};
+        if(N==0) return 0;
+        for(i=0;i<N;i++)
+        {
+            scanf("%d",&d);
+            score[d]++;
+        }
+        scanf("%d",&d);
+        printf("%d\n",score[d]);
+    }
+    return 0;
+}
+*/
