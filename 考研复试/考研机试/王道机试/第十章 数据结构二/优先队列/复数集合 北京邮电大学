@@ -1,0 +1,85 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+using namespace std;
+/*
+问题描述
+一个复数（x+iy）集合，两种操作作用在该集合上：
+1、Pop 表示读出集合中复数模值最大的那个复数，
+如集合为空 输出  empty  ，
+不为空就输出最大的那个复数并且从集合中删除那个复数，
+再输出集合的大小SIZE；
+2 Insert a+ib  指令（a，b表示实部和虚部），
+将a+ib加入到集合中 ，输出集合的大小SIZE；
+最开始要读入一个int n，表示接下来的n行每一行都是一条命令。
+输入描述
+输入有多组数据。
+每组输入一个n(1<=n<=1000)，然后再输入n条指令。
+输出描述
+根据指令输出结果。
+
+模相等的输出b较小的复数。
+a和b都是非负数。
+样例输入
+3
+Pop
+Insert 1+i2
+Pop
+样例输出
+empty
+SIZE = 1
+1+i2
+SIZE = 0
+解题思路
+
+*/
+
+struct Complex{
+    int real;
+    int imag;
+    Complex(int a, int b) : real(a), imag(b) {}
+    bool operator< (Complex c) const {  //重载小于号
+        return real * real + imag * imag < c.real * c.real + c.imag * c.imag;
+    }
+};
+
+int main(){
+    int n;
+    while(scanf("%d", &n) != EOF){
+        priority_queue<Complex> myPrioritQueue;
+        while(n--){
+            string str;
+            cin >> str;//摆脱空格的干扰，cin与prin混用的原因
+            if(str == "Pop"){
+                if(myPrioritQueue.empty()){
+                    cout << "empty" << endl;
+                } else {
+                    Complex current = myPrioritQueue.top();
+                    myPrioritQueue.pop();
+                    printf("%d+i%d\n", current.real, current.imag);
+                    printf("SIZE = %d\n", myPrioritQueue.size());
+                }
+            } else {
+                int a, b;
+                scanf("%d+i%d", &a, &b);
+                myPrioritQueue.push(Complex(a,b));
+                printf("SIZE = %d\n", myPrioritQueue.size());
+            }
+
+        }
+    }
+
+
+
+    return 0;
+}
