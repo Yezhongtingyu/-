@@ -1,0 +1,60 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+using namespace std;
+/*
+问题描述
+哈夫曼树，第一行输入一个数n，表示叶结点的个数。
+需要用这些叶结点生成哈夫曼树，根据哈夫曼树的概念，
+这些结点有权值，即weight，
+题目需要输出所有结点的值与权值的乘积之和的最小值。
+输入描述
+输入有多组数据。
+每组第一行输入一个数n，接着输入n个叶节点（叶节点权值不超过100，2<=n<=1000）。
+输出描述
+输出权值。
+样例输入
+5
+1 2 2 5 9
+样例输出
+37
+解题思路
+优先队列默认大顶堆
+哈夫曼需要重定义为小顶堆，重定义优先队列
+priority_queue<typename, vector<typename>, greater<typename> > name
+题目中要求的乘法，在while循环的次数中通过累加完成了。
+*/
+int main(){
+    int n;
+    while(scanf("%d", &n) != EOF){
+        priority_queue<int, vector<int>, greater<int> > myPriorityQueue;
+        while(n--){
+            int x;
+            scanf("%d", &x);
+            myPriorityQueue.push(x);
+        }
+        int answer = 0;
+        while(1 < myPriorityQueue.size()){
+            int a = myPriorityQueue.top();
+            myPriorityQueue.pop();
+            int b = myPriorityQueue.top();
+            myPriorityQueue.pop();
+            answer += a + b;
+            myPriorityQueue.push(a + b);
+        }
+        printf("%d\n", answer);
+    }
+
+
+
+}
