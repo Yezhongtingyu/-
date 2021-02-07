@@ -1,0 +1,132 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+#include<map>
+using namespace std;
+/*
+问题描述
+it is a tree?
+输入描述
+输出描述
+样例输入
+6 8  5 3  5 2  6 4
+5 6  0 0
+
+8 1  7 3  6 2  8 9  7 5
+7 4  7 8  7 6  0 0
+
+3 8  6 8  6 4
+5 3  5 6  5 2  0 0
+-1 -1
+样例输出
+Case 1 is a tree.
+Case 2 is a tree.
+Case 3 is not a tree.
+解题思路
+
+*/
+
+const int MAXN = 10000;
+
+int father[MAXN];//父亲节点
+int height[MAXN];//节点高度
+int inDegree[MAXN];//入度
+bool visit[MAXN];//标记
+
+void Initial(int n){//初始化
+    for(int i = 0; i <= n; ++i){
+        father[i] = i;//每个节点的父亲为自己
+        height[i] = 0;//每个节点的高度为0
+        inDegree[i] = 0;
+        visit[i] = false;
+    }
+}
+
+int Find(int x){//查找根节点
+    if(x != father[x]){
+       father[x] = Find(father[x]);//路径压缩
+    }
+    return father[x];
+}
+
+void Union(int x, int y){ //合并集合
+    x = Find(x);
+    y = Find(y);
+    if (x != y){//矮树作为高树的子树
+        if (height[x] < height[y]){
+            father[x] = y;
+        } else if (height[y] < height[x]) {
+            father[y] = x;
+        } else {
+            father[y] = x;
+            height[x]++;
+        }
+    }
+    return ;//倘若x=y直接返回
+}
+
+bool IsTree(){
+    bool flag = true;
+    int component = 0;//连通分量数目
+    int root = 0;//根节点数目
+    for(int i = 0; i < MAXN; ++i){
+        if(!visit[i]){//未被访问则下一波
+            continue;
+        }
+        if(father[i] == i){
+            component++;
+        }
+        if(inDegree[i] == 0){
+            root++;
+        }else if(inDegree[i] > 1){ // 入度不满足要求
+            flag = false;
+        }
+    }
+    if(component != 1 || root != 1){//不符合树的定义
+        flag = false;
+    }
+    if(component == 0 && root == 0){//空集也是树
+        false = true;
+    }
+    return flag;
+}
+
+
+int main(){
+    int x, y;
+    int casenumber = 0;
+    Initial();
+    while(scanf("%d%d", &x, &y) != EOF){
+        if(x == -1 && y == -1){//-1-1算结束全部输入
+            break;
+        }
+        if(x == 0 && y == 0){//00算结束输入，事件的分割标志
+            if(IsTree()){
+                printf("Case %d is a tree.\n", ++casenumber);
+            } else {
+                printf("Case %d is not a tree.\n", ++casenumber);
+            }
+            Initial();
+        }else {
+            Union();
+            inDegree[y]++;
+            visit[x] = true;
+            visit[y] = true;
+        }
+    }
+
+    return 0;
+}
+
+
+
