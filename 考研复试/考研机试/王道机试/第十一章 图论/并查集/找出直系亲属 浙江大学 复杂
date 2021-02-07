@@ -1,0 +1,118 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+#include<map>
+using namespace std;
+/*
+问题描述
+如果A，B是C的父母亲，则A，B是C的parent，
+C是A，B的child，如果A，B是C的（外）祖父，
+祖母，则A，B是C的grandparent，
+C是A，B的grandchild，如果A，B是C的（外）曾祖父，
+曾祖母，则A，B是C的great-grandparent，
+C是A，B的great-grandchild，之后再多一辈，
+则在关系上加一个great-。
+输入描述
+输入包含多组测试用例,
+每组用例首先包含2个整数n（0<=n<=26）和m（0<m<50）, 
+分别表示有n个亲属关系和m个问题, 
+然后接下来是n行的形式如ABC的字符串，
+表示A的父母亲分别是B和C，如果A的父母亲信息不全，
+则用-代替，例如A-C,再然后是m行形式如FA的字符串,
+表示询问F和A的关系。
+    
+输出描述
+    如果询问的2个人是直系亲属，请按题目描述输出2者的关系，如果没有直系关系，请输出-。
+    具体含义和输出格式参见样例.
+样例输入
+3 2
+ABC
+CDE
+EFG
+FA
+BE
+样例输出
+great-grandparent
+-
+解题思路
+
+*/
+
+struct Node{//二叉树节点
+    int p1;//第一个双亲的下标，-1表示不存在
+    int p2;//第二个双亲的下标，-1表示不存在
+}tree[N];//顺序存储，下标就是它所代表的字符编号，比如0代表'A'
+ 
+int preOrder(int from, int to, int depth)
+{//从from出发先序遍历到找到to为止，并返回to相对于from的深度
+    if(from==to) return depth;
+    if(tree[from].p1!=-1)
+    {
+        int ret=preOrder(tree[from].p1, to, depth+1);
+        if(ret!=-1) return ret;
+    }
+    if(tree[from].p2!=-1)
+    {
+        int ret=preOrder(tree[from].p2, to, depth+1);
+        if(ret!=-1) return ret;
+    }
+    return -1;
+}
+ 
+int main()
+{
+    int n, m;
+    while(scanf("%d %d", &n, &m)!=EOF)
+    {
+        for(int i=0; i<N; i++)
+        {
+            tree[i].p1=tree[i].p2=-1;
+        }
+        while(n--)//构建树
+        {
+            char str[4];
+            scanf("%s", str);
+            if(str[1]!='-') tree[str[0]-'A'].p1=str[1]-'A';
+            if(str[2]!='-') tree[str[0]-'A'].p2=str[2]-'A';
+        }
+        while(m--)//查询
+        {
+            char str[3];
+            scanf("%s", str);
+            int from=str[0]-'A';
+            int to=str[1]-'A';
+            int ans1=preOrder(from, to, 0);
+            if(ans1==1) printf("child\n");
+            else if(ans1>=2)
+            {
+                for(int i=ans1; i>2; i--) printf("great-");
+                printf("grandchild\n");
+            }
+            else//看来不是晚辈，那就是长辈了
+            {
+                int ans2=preOrder(to, from, 0);
+                 if(ans2==1) printf("parent\n");
+                else if(ans2>=2)
+                {
+                    for(int i=ans2; i>2; i--) printf("great-");
+                    printf("grandparent\n");
+                }
+                else printf("-\n");//也不是长辈，那就不是直系亲属
+            }
+        }
+    }
+    return 0;//大功告成
+}
+
+
+
