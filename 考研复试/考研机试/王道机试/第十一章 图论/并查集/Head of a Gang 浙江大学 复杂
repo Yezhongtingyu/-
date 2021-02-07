@@ -1,0 +1,168 @@
+#include<iostream>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+#include<map>
+using namespace std;
+/*
+问题描述
+该题的目的是要你统计图的连通分支数。
+输入描述
+每个输入文件包含若干行，每行两个整数i,j，表示节点i和j之间存在一条边。
+输出描述
+输出每个图的联通分支数。
+样例输入
+1 4
+4 3
+5 5
+样例输出
+2
+解题思路
+
+*/
+
+
+/*题目要求的是：
+每个人都有一个通话的分钟，一个团伙人数要求两人以上，团伙的头目定义为通话最多的人
+每个人的姓名为A-Z的26个字母。。。
+*/
+//认真写注释啦啦啦
+ 
+//该结构体虽然名字叫Gang,但是用它来存的是连通子图中的数据
+struct Gang{
+    char id; //该连通子图的父节点，注意，这并不是头目
+    int personNum; //该团伙人数
+    int weight; //团伙总的通信数量*2，因为是把每个人都算了两遍
+    char name; //头目的名字
+    int head; //这才是头目鸭
+};
+ 
+const int MAX_N = 26; //题目测评的人名全部为A-Z的字母
+int father[MAX_N]; //并查集中各元素的父亲的概念
+int height[MAX_N]; //并查集中的树的高度
+bool visit[MAX_N]; //该名字是否出现
+int weight[MAX_N]; //每个人通话分钟的权值
+ 
+bool Compare(Gang x, Gang y){ //该函数用于对团伙进行名字为参数的排序，按名字从小到大
+    return x.name < y.name;
+}
+ 
+void Initial(){ //初始化函数
+    for(int i = 0; i < MAX_N; ++i){
+        father[i] = i;
+        height[i] = 0;
+        visit[i] = false;
+        weight[i] = 0;
+    }
+    return;
+}
+ 
+int Find(int x){ //并查集的查找函数
+    if(x != father[x]){
+        father[x] = Find(father[x]);
+    }
+    return father[x];
+}
+ 
+void Union(int x, int y){ //并查集的合并函数
+    x = Find(x);
+    y = Find(y);
+    if(x != y){
+        if(height[x] < height[y]){
+            father[x] = y;
+        }
+        else if(height[x] > height[y]){
+            father[y] = x;
+        }
+        else{
+            father[x] = y;
+            height[y]++;
+        }
+    }
+    return;
+}
+ 
+int main(){ 
+    int n, k; //n代表有n组联系, k表***胁值
+    //将成员分成组
+    while(cin >> n >> k){
+        getchar(); //一定注意吞掉回车，不然后面读入乱套！！！
+        Initial();
+        char c1, c2;
+        int w;
+        for(int i = 0; i < n; ++i){
+            scanf("%c %c %d", &c1, &c2, &w); //用scanf约定格式读，若用cin，中间空格可能会被读入
+            getchar(); //还是一样要吞掉回车，下一次还要读字符
+            int ia = c1 - 'A'; //索引鸭
+            int ib = c2 - 'A'; 
+            visit[ia] = true; 
+            visit[ib] = true; 
+            weight[ia] += w; 
+            weight[ib] += w; 
+            Union(ia, ib); //合并集合
+        }
+ 
+        int component = 0; //连通子图的个数
+        Gang gang[MAX_N]; //保存团伙的头目姓名以及人数
+        for(int i = 0; i < MAX_N; ++i){ //初始化
+            gang[i].personNum = 0;
+            gang[i].weight = 0;
+        }
+        //对连通子图，将其信息保存下：father（id）、头目【头目先保存为father，说不定就是它呢】（head）
+        //头目姓名（name）
+        for(int i = 0; i < MAX_N; ++i){
+            if(visit[i]){
+                if(father[i] == i){
+                    gang[component].id = i;
+                    gang[component].head = i;
+                    gang[component].name = i + 'A';
+                    component++;
+                }
+            }
+        }
+        //对于每个父亲，遍历找团伙中的成员，包括成员数量、同时查找过程更换头目
+        for(int i = 0; i < component; ++i){
+            int f = gang[i].id;
+            for(int j = 0; j < MAX_N; ++j){
+                if(!visit[j]){
+                    continue;
+                }
+                if(f == Find(j)){
+                    gang[i].personNum++; //团伙人数
+                    gang[i].weight += weight[j]; //团伙的通话分钟
+                    if(weight[j] > weight[gang[i].head]){ 
+                        gang[i].name = j + 'A'; //更换头目姓名
+                        gang[i].head = j;
+                    }
+                }
+                 
+            }
+        }
+        //对团队根据名字进行排队
+        sort(gang, gang + component, Compare);
+        //输入条件符合的团伙
+        int answer = 0; //满足条件的团伙数量
+        for(int i = 0; i < component; ++i){
+            if(gang[i].personNum > 2 && gang[i].weight > 2 * k){
+                answer++;
+            }
+        }
+        cout << answer << endl;
+        //输出团伙的头目、人数
+        for(int i = 0; i < component; ++i){
+            if(gang[i].personNum > 2 && gang[i].weight > 2 * k){
+                cout << gang[i].name << " " << gang[i].personNum << endl;
+            }
+        }
+    }
+     
+    return 0;
+}
