@@ -1,0 +1,142 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+#include<map>
+using namespace std;
+/*
+问题描述
+输入描述
+输出描述
+样例输入
+3
+1.0 1.0
+2.0 2.0
+2.0 4.0
+样例输出
+3.41
+解题思路
+
+*/
+
+//顶点的结构体
+struct Point {
+    double x;//顶点的x坐标
+    double y;//顶点的y坐标
+    //构造函数
+    Point(double xx,double yy):x(xx),y(yy){}
+};
+ 
+//边的结构体
+struct Edge {
+    int dingdian1;//顶点1的序号
+    int dingdian2;//顶点2的序号
+    double weight;//边的权值
+    //构造函数
+    Edge(int a, int b,double w) :dingdian1(a), dingdian2(b),weight(w) {}
+};
+ 
+double EdegeWeight(Point dingdian1,Point dingdian2) {
+ 
+    return sqrt(pow((dingdian1.x - dingdian2.x), 2)+pow((dingdian1.y - dingdian2.y), 2));
+}
+ 
+bool comp(Edge a, Edge b) {
+    if (a.weight < b.weight) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+ 
+int father[101];//每个顶点的父节点
+int height[101];//每个顶点的高度
+ 
+int findjihe(int dingdian) {
+    if (father[dingdian] != dingdian) {
+        father[dingdian] = findjihe(father[dingdian]);
+    }
+    return father[dingdian];
+}
+ 
+void unionjihe(int dingdian1, int dingdian2) {
+    int jihe1 = findjihe(dingdian1);
+    int jihe2 = findjihe(dingdian2);
+ 
+    if (jihe1 != jihe2) {
+        if (height[jihe1] < height[jihe2]) {
+            father[jihe1] = jihe2;
+        }
+        else if (height[jihe2] < height[jihe1]) {
+            father[jihe2] = jihe1;
+        }
+        else {
+            father[jihe2] = jihe1;
+            height[jihe1]++;
+        }
+ 
+    }
+}
+ 
+int main() {
+    int n;//顶点数
+    while (cin >> n) {
+        double x, y;
+        //存储边的容器
+        vector<Edge> Edges;
+        //存储点的容器
+        vector<Point> Points;
+         
+        //每个顶点的横纵坐标
+        for (int i = 0; i < n; i++) {
+            cin >> x >> y;
+            Points.push_back(Point(x, y));
+ 
+            //初始化每个顶点.顶点编号为i的顶点的父节点为i.每个顶点高度为0
+            father[i]= i;
+            height[i] = 0;
+ 
+        }
+ 
+        //计算每条边
+        for (int i = 0; i < n; i++) {
+            for (int j = i+1; j < n; j++) {
+                Point dingdian1 = Points[i];
+                Point dingdian2 = Points[j];
+ 
+                double weight = EdegeWeight(dingdian1,dingdian2);
+ 
+                //i代表顶点1的序号，j代表顶点2的序号
+                Edges.push_back(Edge(i, j, weight));
+ 
+            }
+        }
+ 
+        //将边从小到大排序
+        sort(Edges.begin(), Edges.end(), comp);
+ 
+        double min = 0;
+        for (int i = 0; i < Edges.size(); i++) {
+            //每次选取最小的边，且边的两个顶点不能在一个集合
+            if (findjihe(Edges[i].dingdian1) != findjihe(Edges[i].dingdian2)) {
+                unionjihe(Edges[i].dingdian1, Edges[i].dingdian2);
+                min = min + Edges[i].weight;
+            }
+ 
+        }
+ 
+        printf("%0.2f", min);
+ 
+    }
+    return 0;
+}
