@@ -1,0 +1,112 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+#include<map>
+#include<climits>
+using namespace std;
+/*
+问题描述
+某省自从实行了很多年的畅通工程计划后，
+终于修建了很多路。不过路多了也不好，
+每次要从一个城镇到另一个城镇时，
+都有许多种道路方案可以选择，
+而某些方案要比另一些方案行走的距离要短很多。
+这让行人很困扰。
+现在，已知起点和终点，请你计算出要从起点到终点，
+最短需要行走多少距离。
+输入描述
+本题目包含多组数据，请处理到文件结束。
+每组数据第一行包含两个正整数N和M(0<N<200,0<M<1000)，分别代表现有城镇的数目和已修建的道路的数目。城镇分别以0～N-1编号。
+接下来是M行道路信息。每一行有三个整数A,B,X(0<=A,B<N,A!=B,0<X<10000),表示城镇A和城镇B之间有一条长度为X的双向道路。
+再接下一行有两个整数S,T(0<=S,T<N)，分别代表起点和终点。
+输出描述
+对于每组数据，请在一行里输出最短需要行走的距离。如果不存在从S到T的路线，就输出-1.
+样例输入
+3 3
+0 1 1
+0 2 3
+1 2 1
+0 2
+3 1
+0 1 1
+1 2
+样例输出
+2
+-1
+解题思路
+
+*/
+
+const int MAXN = 200;
+const int INF = INT_MAX;
+
+struct Edge{
+    int to;//终点
+    int length;//长度
+    Edge(int a, int b) : to(a), length(b) {}
+};
+
+struct Point {
+    int number;
+    int distance;//从源点到该点的距离
+    Point(int a, int b) : number(a), distance(b) {}
+    bool operator< (const Point& p) const {
+        return distance < p.distance;//距离小的优先级高
+    }
+};
+
+vector<Edge> graph[MAXN];//邻接表实现的图
+int dis[MAXN];//源点到各点的距离
+
+void Dijkstra(int s){//只需直到源点，然后全图的最短路径全算出来了
+    priority_queue<Point> myPriorityQueue;
+    dis[s] = 0;
+    myPriorityQueue.push(Point(s, dis[s]));
+    while(!myPriorityQueue.empty()){
+        int u = myPriorityQueue.top().number;//离源点最近的点
+        myPriorityQueue.pop();
+        for(int i = 0; i < graph[u].size(); ++i){//.szie（）有数才统计，初始化的0不作为统计项
+            int v = graph[u][i].to;
+            int d = graph[u][i].length;
+            if(dis[v] > dis[u] + d){
+                dis[v] = dis[u] + d;
+                myPriorityQueue.push(Point(v, dis[v]));//最后才处理点集
+            }
+        }
+    }
+    return;
+}
+
+int main(){
+    int n, m;
+    while(scanf("%d%d", &n, &m) != EOF){
+        memset(graph, 0 , sizeof(graph));//图初始化
+        fill(dis, dis + n, INF);//距离初始化为无穷
+        while(m--){
+            int from, to, length;
+            scanf("%d%d%d", &from, &to, &length);
+            graph[from].push_back(Edge(to, length));//以有向图成无向图graph[0] 为0顶点，to为出
+            graph[to].push_back(Edge(from, length));
+        }
+        int s, t;//起点与终点
+        scanf("%d%d", &s, &t);
+        Dijkstra(s);
+        if(dis[t] == INF){
+            dis[t] = -1;
+        }
+        printf("%d\n", dis[t]);
+    }
+
+
+    return 0;
+}
