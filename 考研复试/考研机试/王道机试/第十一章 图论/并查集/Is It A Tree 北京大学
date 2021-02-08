@@ -33,7 +33,7 @@ Case 1 is a tree.
 Case 2 is a tree.
 Case 3 is not a tree.
 解题思路
-
+有向图
 */
 
 const int MAXN = 10000;
