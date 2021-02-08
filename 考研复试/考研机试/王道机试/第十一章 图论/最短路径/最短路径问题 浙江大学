@@ -1,0 +1,111 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+#include<map>
+#include<climits>
+using namespace std;
+/*
+问题描述
+给你n个点，m条无向边，每条边都有长度d和花费p，
+给你起点s终点t，要求输出起点到终点的最短距离及其花费，
+如果最短距离有多条路线，则输出花费最少的。
+输入描述
+输入n,m，点的编号是1~n,然后是m行，
+每行4个数 a,b,d,p，表示a和b之间有一条边，
+且其长度为d，花费为p。最后一行是两个数 s,t;起点s，
+终点t。n和m为0时输入结束。
+(1<n<=1000, 0<m<100000, s != t)
+输出描述
+输出 一行有两个数， 最短距离及其花费。
+样例输入
+3 2
+1 2 5 6
+2 3 4 5
+1 3
+0 0
+样例输出
+9 11
+解题思路
+
+*/
+
+const int MAXN = 200;
+const int INF = INT_MAX;
+
+struct Edge{
+    int to;//终点
+    int length;//长度
+    int price;//花费
+    Edge(int a, int b, int c) : to(a), length(b) , price(c) {}
+};
+
+struct Point {
+    int number;
+    int distance;//从源点到该点的距离
+    Point(int a, int b) : number(a), distance(b) {}
+    bool operator< (const Point& p) const {
+        return distance < p.distance;//距离小的优先级高
+    }
+};
+
+vector<Edge> graph[MAXN];//邻接表实现的图
+int dis[MAXN];//源点到各点的距离
+int cost[MAXN];//记录花费
+
+void Dijkstra(int s){//只需直到源点，然后全图的最短路径全算出来了
+    priority_queue<Point> myPriorityQueue;
+    dis[s] = 0;
+    cost[s] = 0;
+    myPriorityQueue.push(Point(s, dis[s]));
+    while(!myPriorityQueue.empty()){
+        int u = myPriorityQueue.top().number;//离源点最近的点
+        myPriorityQueue.pop();
+        for(int i = 0; i < graph[u].size(); ++i){//.szie（）有数才统计，初始化的0不作为统计项
+            int v = graph[u][i].to;
+            int d = graph[u][i].length;
+            int p = graph[u][i].price;
+            if((dis[v] == dis[u] + d && cost[v] > cost[u] + p)
+               || dis[v] > dis[u] + d){//注意松弛操作的条件变换
+                dis[v] = dis[u] + d;
+                cost[v] = cost[u] + p;
+                myPriorityQueue.push(Point(v, dis[v]));//最后才处理点集
+            }
+        }
+    }
+    return;
+}
+
+int main(){
+    int n, m;
+    while(scanf("%d%d", &n, &m) != EOF){
+        if(n == 0 && m == 0){
+            break;
+        }
+        memset(graph, 0 , sizeof(graph));//图初始化
+        fill(dis, dis + n + 1, INF);//距离初始化为无穷,比上题多1的原因是该题从1到n，而0号位在本题中并不会使用，故初始化也无关
+        fill(cost, cost + n + 1, INF);//花费初始化为无穷
+        while(m--){
+            int from, to, length, price;
+            scanf("%d%d%d%d", &from, &to, &length, &price);
+            graph[from].push_back(Edge(to, length, price));//以有向图成无向图graph[0] 为0顶点，to为出
+            graph[to].push_back(Edge(from, length, price));
+        }
+        int s, t;//起点与终点
+        scanf("%d%d", &s, &t);
+        Dijkstra(s);
+        printf("%d%d\n", dis[t], cost[t]);
+    }
+
+
+    return 0;
+}
