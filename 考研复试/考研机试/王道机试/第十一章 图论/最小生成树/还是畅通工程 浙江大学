@@ -96,7 +96,7 @@ void Union(int x, int y){
 
 int Kruskal(int n, int edgeNumber){
     initial(n);
-    sort(edge, edge + edgeNumber);//按权值排序
+    sort(edge, edge + edgeNumber);//按权值排序，上面重定义的<是为了在这里使用
     int sum = 0;
     for(int i = 0; i < edgeNumber; ++i){
         if(Find(edge[i].from) != Find(edge[i].to)){
