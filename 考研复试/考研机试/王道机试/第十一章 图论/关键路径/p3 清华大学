@@ -1,0 +1,116 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+#include<map>
+#include<climits>
+using namespace std;
+/*
+问题描述
+论文
+输入描述
+第一行nm
+第二行n个整数表示每个实验所需的时间
+m行 uv关系
+输出描述
+第一行最晚时间
+第二行余数
+样例输入
+7 5
+11 20 17 10 11 17 17
+5 4
+6 1
+7 3
+2 4
+2 1
+样例输出
+34
+7840
+解题思路
+
+*/
+
+const int MAXN = 1e5 + 7;
+const int INF = INT_MAX;
+const int MOD = 1e9 + 7;
+
+vector<int> graph[MAXN];
+long long earliest[MAXN];//最早开始时间
+long long latest[MAXN];//最晚开始时间
+int inDegree[MAXN];//入度
+long long time[MAXN];
+
+long long CriticalPath(int n){
+    vector<int> topology;//拓扑序列
+    queue<int> node;
+    for(int i = 1; i <= n; ++i){
+        if(inDegree[i] == 0){
+            node.push(i);
+        }
+    }
+    long long totaltime = 0;
+    while(!node.empty()){
+        int u = node.front();
+        topology.push_back(u);
+        node.pop();
+        for(int i = 0; i < graph[u].size(); ++i){
+            int v = graph[u][i];
+            earliest[v] = max(earliest[v], earliest[u] + time[u]);
+            inDegree[v]--;
+            if(inDegree[v] == 0){
+                node.push(v);
+                totaltime = max(totaltime, earliest[v] + time[v]);
+            }
+        }
+    }
+    for(int i = topology.size() - 1; i >= 0; --i){//有点多余，应该是模板
+        int u = topology[i];
+        if(graph[u].size() == 0){
+            latest[u] = totaltime - time[u];//汇点的最晚开始时间初始化,该点为最后一个点
+        }else {
+            latest[u] = INF;//非汇点的最晚开始时间初始化
+        }
+        for(int j = 0; j < graph[u].size(); ++j){
+            int v = graph[u][j];
+            latest[u] = min(latest[u], latest[v] - time[u]);
+        }
+    }
+    return totaltime;
+}
+
+int main(){
+    int n, m;
+    while(scanf("%d%d", &n, &m) != EOF){
+        memset(graph, 0, sizeof(graph));
+        memset(earliest, 0, sizeof(earliest));
+        memset(latest, 0, sizeof(latest));
+        memset(inDegree, 0, sizeof(inDegree));
+        memset(time, 0, sizeof(time));
+        for(int i = 1; i <= n; ++i){
+            scanf("%lld", &time[i]);
+        }
+        while(m--){
+            int from, to;
+            scanf("%d%d", &from, &to);
+            graph[from].push_back(to);
+            inDegree[to]++;
+        }
+    long long totaltime = CriticalPath(n);
+    long long answer = 1;
+    for(int i = 0; i <= n; ++i){
+        answer *= latest[i] - earliest[i] + 1;//题目要求
+        answer %= MOD;
+    }
+    printf("%lld\n%lld\n", totaltime, answer);
+    }
+    return 0;
+}
