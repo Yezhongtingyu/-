@@ -1,0 +1,88 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+#include<map>
+#include<climits>
+using namespace std;
+/*
+问题描述
+师傅徒弟判定和传递
+输入描述
+徒弟 师傅
+输出描述
+样例输入
+3 2
+0 1
+1 2
+2 2
+0 1
+1 0
+0 0
+样例输出
+YES
+NO
+解题思路
+
+*/
+
+const int MAXN = 500;
+
+vector<int> graph[MAXN];
+int inDegree[MAXN];//入度
+
+bool TopologicalSort(int n){
+    queue<int> node;
+    for(int i = 0; i < n; ++i){
+        if(inDegree[i] == 0){
+            node.push(i);
+        }
+    }
+    int number = 0;//拓扑排序顶点个数
+    while(!node.empty()){
+        int u = node.front();
+        node.pop();
+        number++;//拓扑序列顶点加1
+        for(int i = 0; i < graph[u].size(); ++i){
+            int v = graph[u][i];
+            inDegree[v]--;//后继顶点入度减一
+            if(inDegree[v] == 0){
+                node.push(v);
+            }
+        }
+    }
+    return n == number;//判断能否产生拓扑排序
+}
+
+int main(){
+    int n, m;
+    while(scanf("%d %d", &n, &m) != EOF){
+        if(n == 0 && m == 0){
+            break;
+        }
+        memset(graph, 0, sizeof(graph));
+        memset(inDegree, 0, sizeof(inDegree));
+        while(m--){
+            int from, to;
+            scanf("%d %d", &from, &to);
+            graph[from].push_back(to);
+            inDegree[to]++;
+        }
+        if(TopologicalSort(n)){
+            printf("YES\n");
+        }else{
+            printf("NO\n");
+        }
+    }
+    return 0;
+}
+
