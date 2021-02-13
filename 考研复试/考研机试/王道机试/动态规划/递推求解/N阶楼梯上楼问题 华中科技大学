@@ -1,0 +1,51 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+#include<map>
+#include<climits>
+using namespace std;
+/*
+问题描述
+N阶楼梯上楼问题：一次可以走两阶或一阶，
+问有多少种上楼方式。（要求采用非递归）
+输入描述
+输入包括一个整数N,(1<=N<90)。
+输出描述
+可能有多组测试数据，对于每组数据，
+输出当楼梯阶数是N时的上楼方式个数。
+样例输入
+4
+样例输出
+5
+解题思路
+递推
+*/
+const int MAXN = 91;
+
+long long dp[MAXN];
+
+int main(){
+    dp[0] = 0;
+    dp[1] = 1;
+    dp[2] = 2;
+    for(int i = 3; i < MAXN; ++i){
+        dp[i] = dp[i - 1] + dp[i - 2];
+    }
+    int n;
+    while(scanf("%d", &n) != EOF){
+        printf("%lld\n", dp[n]);
+    }
+
+
+    return 0;
+}
