@@ -1,0 +1,70 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+#include<map>
+#include<climits>
+using namespace std;
+/*
+问题描述
+某国为了防御敌国的导弹袭击，
+开发出一种导弹拦截系统。
+但是这种导弹拦截系统有一个缺陷：
+虽然它的第一发炮弹能够到达任意的高度，
+但是以后每一发炮弹都不能高于前一发的高度。
+某天，雷达捕捉到敌国的导弹来袭，
+并观测到导弹依次飞来的高度，
+请计算这套系统最多能拦截多少导弹。
+拦截来袭导弹时，必须按来袭导弹袭击的时间顺序，
+不允许先拦截后面的导弹，再拦截前面的导弹。
+输入描述
+每组输入有两行，
+第一行，输入雷达捕捉到的敌国导弹的数量k（k<=25），
+第二行，输入k个正整数，表示k枚导弹的高度，
+按来袭导弹的袭击时间顺序给出，以空格分隔。
+输出描述
+每组输出只有一行，包含一个整数，
+表示最多能拦截多少枚导弹。
+样例输入
+8
+300 207 155 300 299 170 158 65
+样例输出
+6
+解题思路
+递推
+*/
+
+const int MAXN = 25;
+
+int height[MAXN];
+int dp[MAXN];
+
+int main(){
+    int n;
+    while(scanf("%d", &n) != EOF){
+        for(int i = 0; i < n; i++){
+            scanf("%d", &height[i]);
+        }
+        int answer = 0;
+        for(int i = 0; i < n; ++i){
+            dp[i] = 1;
+            for(int j = 0; j < i; ++j){
+                if(height[i] <= height[j]){
+                    dp[i] = max(dp[i], dp[j] + 1);//每次都看一看本位置是否小于前面的位置，
+                }                                 //若是小于则前面的都加一，并取最大值
+            }
+            answer = max(answer, dp[i]);
+        }
+        printf("%d\n", answer);
+    }
+    return 0;
+}
