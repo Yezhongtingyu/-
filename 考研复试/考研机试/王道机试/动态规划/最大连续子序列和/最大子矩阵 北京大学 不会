@@ -1,0 +1,117 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+#include<map>
+#include<climits>
+using namespace std;
+/*
+问题描述
+
+已知矩阵的大小定义为矩阵中所有元素的和。
+给定一个矩阵，你的任务是找到最大的非空
+(大小至少是1 * 1)子矩阵。 比如，如下4 * 4的矩阵
+0 -2 -7 0
+9 2 -6 2
+-4 1 -4 1
+-1 8 0 -2
+的最大子矩阵是 9 2
+-4 1
+-1 8
+这个子矩阵的大小是15。
+
+输入描述
+输入是一个N * N的矩阵。
+输入的第一行给出N (0 < N <= 100)。
+再后面的若干行中，
+依次（首先从左到右给出第一行的N个整数，
+再从左到右给出第二行的N个整数……）
+给出矩阵中的N2个整数，整数之间由空白字符分隔
+（空格或者空行）。
+已知矩阵中整数的范围都在[-127, 127]。
+输出描述
+测试数据可能有多组，对于每组测试数据，
+输出最大子矩阵的大小。
+样例输入
+4
+0 -2 -7 0
+9 2 -6 2
+-4 1 -4  1
+-1 8  0 -2
+样例输出
+15
+解题思路
+递推
+*/
+const int MAXN = 100;
+
+int matrix[MAXN][MAXN];//原始矩阵
+int total[MAXN][MAXN];//辅助矩阵
+int dp[MAXN];
+int arr[MAXN];//一维数组
+
+int MaxSubsequence(int n){
+    int maximum = 0;
+    for(int i = 0; i < n; ++i){
+        if(i == 0){
+            dp[i] = arr[i];
+        }else{
+            dp[i] = max(arr[i], dp[i - 1] + arr[i]);//精髓
+        }
+        maximum = max(maximum, dp[i]);
+    }
+    return maximum;
+}
+
+int MaxSubmatrix(int n){
+    int maximal = 0;
+    for(int i = 0; i < n; ++i){
+        for(int j = i; j < n; ++j){
+            for(int k = 0; k < n; ++k){//获得一维数组
+                if(i == 0){
+                    arr[k] = total[j][k];
+                }else{
+                /*
+                    因为temp记录的是从0行到末尾所有行同列元素之和
+                    那么如果起始行不是0行，那么要减掉i行之前的元素和
+                */
+                    arr[k] = total[j][k] - total[i - 1][k];//不懂
+                }
+            }
+            int current = MaxSubsequence(n);
+            maximal = max(maximal, current);
+        }
+    }
+    return maximal;
+}
+int main(){
+    int n;
+    while(scanf("%d", &n) != EOF){
+        for(int i = 0; i < n; ++i){
+            for(int j = 0; j < n; ++j){
+                scanf("%d", &matrix[i][j]);
+            }
+        }
+        for(int i = 0; i < n; ++i){
+            for(int j = 0; j < n; ++j){
+                if(i == 0){
+                    total[i][j] = matrix[i][j];
+                }else{
+                    total[i][j] = total[i - 1][j] + matrix[i][j];
+                }
+            }
+        }
+        int answer = MaxSubmatrix(n);
+        printf("%d\n", answer);
+    }
+    return 0;
+}
