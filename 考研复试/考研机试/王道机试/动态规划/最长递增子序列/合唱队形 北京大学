@@ -1,0 +1,132 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+#include<map>
+#include<climits>
+using namespace std;
+/*
+问题描述
+计算最少出列多少位同学，使得剩下的同学排成合唱队形
+
+说明：
+
+N位同学站成一排，音乐老师要请其中的(N-K)位同学出列，
+使得剩下的K位同学排成合唱队形。
+合唱队形是指这样的一种队形：
+设K位同学从左到右依次编号为1，2…，K，
+他们的身高分别为T1，T2，…，TK，
+则他们的身高满足存在i（1<=i<=K）
+使得T1<T2<......<Ti-1<Ti>Ti+1>......>TK。
+
+你的任务是，已知所有N位同学的身高，
+计算最少需要几位同学出列，
+可以使得剩下的同学排成合唱队形。
+
+
+注意不允许改变队列元素的先后顺序
+请注意处理多组输入输出！
+输入描述
+整数N）。
+输出描述
+最少需要几位同学出列
+样例输入
+8
+186 186 150 200 160 130 197 200
+样例输出
+4
+解题思路
+首先计算每个数在最大递增子串中的位置
+
+186  186  150  200  160  130  197  200   quene
+
+1      1      1      2       2      1      3     4       递增计数
+
+
+然后计算每个数在反向最大递减子串中的位置--->计算反向后每个数在最大递增子串中的位置
+
+200  197  130  160  200  150  186  186   反向quene
+
+1      1      1       2     3      2      3       3      递减计数
+
+
+然后将每个数的递增计数和递减计数相加
+
+186  186  150  200  160  130  197  200   quene
+
+1      1      1      2       2     1      3      4       递增计数
+
+3      3      2      3       2     1      1      1       递减计数
+
+4      4      3      5       4     2      4      5       每个数在所在队列的人数+1（自己在递增和递减中被重复计算）
+
+
+如160这个数
+
+在递增队列中有2个人数
+
+150  160
+
+在递减队列中有2个人数
+
+160  130
+
+那么160所在队列中就有3个人
+
+150  160  130
+
+
+每个数的所在队列人数表达就是这个意思
+
+
+总人数 - 该数所在队列人数 = 需要出队的人数
+*/
+
+void calIncSub(vector<int> quene, vector<int> &Num){
+    for(int i = 0; i < quene.size(); i++){
+        for(int j = 0;j < i; j++){
+            if(quene[j] < quene[i]){
+                Num[i] = max(Num[i], Num[j] + 1);
+            }
+        }
+    }
+
+
+}
+
+int main(){
+    int n;
+    int h;
+
+    while(cin>>n){
+        vector<int> quene;
+        vector<int> incNum(n,1);  //初始化为n个1
+        vector<int> decNum(n,1);
+        vector<int> totalNum;
+        for(int i=0;i<n;i++){
+            cin >> h;
+            quene.push_back(h);
+        }
+        calIncSub(quene,incNum);    //找递增子串计数
+        reverse(quene.begin(),quene.end()); //翻转，即找反向的子串计数
+        calIncSub(quene,decNum);
+        reverse(decNum.begin(),decNum.end());   //反向递增即正向递减
+        int max=0;
+        for(int i=0;i<n;i++){
+            totalNum.push_back(incNum[i]+decNum[i]);
+            if(totalNum[i]>max)
+                max=totalNum[i];
+        }
+        cout << n-max+1 <<endl;
+    }
+    return 0;
+}
