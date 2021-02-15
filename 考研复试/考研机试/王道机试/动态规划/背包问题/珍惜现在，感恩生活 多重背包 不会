@@ -1,0 +1,76 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+#include<map>
+#include<climits>
+using namespace std;
+/*
+问题描述
+珍惜现在， 感恩生活，多重包问题
+输入描述
+
+输出描述
+
+样例输入
+1
+8 2
+2 100 4
+4 100 2
+样例输出
+400
+解题思路
+
+*/
+
+const int MAXN = 10000;
+
+int dp[MAXN];
+int v[MAXN];//value
+int w[MAXN];//weight
+int k[MAXN];//mount
+int value[MAXN];//分解后物品价值
+int weight[MAXN];//分解后物品质量
+
+int main(){
+    int casenumber;
+    scanf("%d", &casenumber);
+    while(casenumber--){
+        int m, n;
+        scanf("%d%d", &m, &n);//n件物品，m容量的背包
+        int number = 0;//分解后物品的数量
+        for(int i = 0; i < n; ++i){
+            scanf("%d%d%d", &w[i], &v[i], &k[i]);
+            for(int j = 1; j <= k[i]; j <<= 1){
+                value[number] = j * v[i];
+                weight[number] = j * w[i];
+                number++;
+                k[i] -= j;
+            }
+            if(k[i] > 0){
+                value[number] = k[i] * v[i];
+                weight[number] = k[i] * w[i];
+                number++;
+            }
+        }
+        for(int i = 0; i <= m; ++i){
+            dp[i] = 0;
+        }
+        for(int i = 0; i < number; ++i){
+            for(int j = m; j >= weight[i]; --j){
+                dp[j] = max(dp[j], dp[j - weight[i]] + value[i]);
+            }
+        }
+        printf("%d\n", dp[m]);
+    }
+    return 0;
+}
