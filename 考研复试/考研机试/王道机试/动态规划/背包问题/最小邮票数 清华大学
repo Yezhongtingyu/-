@@ -1,0 +1,69 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+#include<map>
+#include<climits>
+using namespace std;
+/*
+问题描述
+有若干张邮票，
+要求从中选取最少的邮票张数凑成一个给定的总值。
+如，有1分，3分，3分，3分，4分五张邮票，
+要求凑成10分，则使用3张邮票：3分、3分、4分即可。
+输入描述
+有多组数据，对于每组数据，
+首先是要求凑成的邮票总值M，M<100。
+然后是一个数N，N〈20，表示有N张邮票。
+接下来是N个正整数，分别表示这N张邮票的面值，
+且以升序排列。
+输出描述
+对于每组数据，能够凑成总值M的最少邮票张数。
+若无解，输出0。
+样例输入
+10
+5
+1 3 3 3 4
+样例输出
+3
+解题思路
+
+*/
+
+const int MAXN = 1001;
+
+int dp[MAXN];
+int v[MAXN];//value
+int w[MAXN];//weight
+
+int main(){
+    int n, m;
+    scanf("%d %d", &m, &n);
+    for(int i = 0; i < n; ++i){
+        scanf("%d", &w[i]);
+    }
+    for(int i = 0; i <= m; ++i){
+        dp[i] = INT_MAX;
+        if(i == 0){
+            dp[0] = 0;
+        }
+    }
+    for(int i = 0; i < n; ++i){
+        for(int j = m; j >= w[i]; --j){
+            if(dp[j - w[i]] != INT_MAX){
+                dp[j] = min(dp[j], dp[j - w[i]] + 1);
+            }
+        }
+    }//精彩
+    printf("%d\n", dp[m] == INT_MAX? 0 : dp[m]);
+    return 0;
+}
