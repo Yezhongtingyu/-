@@ -1,0 +1,80 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+#include<map>
+#include<climits>
+using namespace std;
+/*
+问题描述
+完全背包，物品无限。
+输入描述
+
+输出描述
+
+样例输入
+3
+10 110
+2
+1 1
+30 50
+10 110
+2 
+1 1
+50 30
+1 6
+2
+10 3
+20 4
+样例输出
+The minimun amount of money in the piggy-bank is 60
+The minimun amount of money in the piggy-bank is 100
+This is impossible
+解题思路
+
+*/
+
+const int MAXN = 10000;
+
+int dp[MAXN];
+int v[MAXN];//value
+int w[MAXN];//weight
+const int INF = INT_MAX / 10;
+int main(){
+    int casenumber;
+    scanf("%d", &casenumber);
+    while(casenumber--){
+        int e, f;
+        scanf("%d%d", &e, &f);
+        int m = f - e;//背包容量
+        int n;//物品种类
+        scanf("%d", &n);
+        for(int i = 1; i <= n; ++i){
+            scanf("%d%d", &v[i], &w[i]);
+        }
+        for(int i = 1; i <= m; ++i){
+            dp[i] = INF;
+        }
+        dp[0] = 0;
+        for(int i = 0; i < n; ++i){
+            for(int j = w[i]; j <= m; ++j){
+                dp[j] = min(dp[j], dp[j - w[i]] + v[i]);
+            }
+        }
+        if(dp[m] = INF){
+            printf("this is impossible.\n");
+        }else{
+            printf("The minimum amount of money in the piggy-bank is %d.\n", dp[m]);
+        }
+    }
+    return 0;
+}
