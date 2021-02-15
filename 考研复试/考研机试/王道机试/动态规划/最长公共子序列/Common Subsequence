@@ -1,0 +1,62 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<cstdlib>
+#include<unordered_map>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<cctype>
+#include<map>
+#include<climits>
+using namespace std;
+/*
+问题描述
+最长公共子序列(重排列)
+输入描述
+
+输出描述
+
+样例输入
+abcfbc abfcab
+programming contest
+abcd mnp
+样例输出
+4
+2
+0
+解题思路
+
+*/
+
+const int MAXN = 1001;
+
+char s1[MAXN];
+char s2[MAXN];
+int dp[MAXN][MAXN];
+
+int main(){
+    while(scanf("%s%s", s1 + 1, s2 + 1) != EOF){
+        int n = strlen(s1 + 1);
+        int m = strlen(s2 + 1);
+        for(int i = 0; i <= n; ++i){
+            for(int j = 0; j <= m; ++j){
+                if(i == 0 || j == 0){
+                    dp[i][j] = 0;
+                    continue;
+                }
+                if(s1[i] == s2[j]){
+                    dp[i][j] = dp[i - 1][j - 1] + 1;//精髓
+                }else{
+                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);//精髓
+                }
+            }
+        }
+        printf("%d\n", dp[n][m]);
+    }
+    return 0;
+}
